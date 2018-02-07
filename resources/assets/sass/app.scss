@@ -1,0 +1,248 @@
+
+// Element-ui 
+@import '../../../node_modules/element-ui/lib/theme-chalk/index.css';
+
+// Fonts
+@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+
+// Variables
+@import "_variables.scss";
+
+
+/**
+ *  General Styles
+ *  These are the general styles for the whole app.
+ */
+
+html, 
+body, 
+#appshell, 
+.app {
+	height: 100%;
+	margin: 0;
+	font-family: "Raleway";
+}
+
+.app {
+	display: flex;
+	flex-direction: row;
+}
+
+.animate {
+	transition: all .3s ease;
+}
+
+.canvas {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+	flex: 1;
+
+	.content {
+		flex: 1;
+		background-color: #E9E9E9;
+		display: flex;
+	}
+
+	.pull-right {
+		float: right;
+	}
+
+	.pull-left {
+		float: left;
+	}
+}
+
+/* Sidebar Styles */
+.sidebar
+ {
+	height: 100%;
+	padding:0 20px;
+	background-color: $sidebar-background-color;
+	color: $sidebar-foreground-color;
+
+	.brand {
+		padding: 10px 0;
+	    font-size: 24pt;
+	    margin-bottom: 20px;
+	    color: white;
+
+	    .logo img {
+	    	width: 1em;
+	    }
+	}
+
+	.nav {
+		list-style: none;
+		padding: 0;
+		margin: 10px 0;
+		font-size: 20pt;
+	}
+
+	.nav-item {
+		padding: 10px 0;
+	}
+
+	.nav-item a {
+		text-decoration: none;
+		color: $sidebar-foreground-color;
+	}
+
+	.nav-item i {
+		width: 15%;
+	}
+
+	.nav-item .router-link-active {
+		color: $sidebar-highlight-color;
+	}
+
+	.search-container {
+		padding: 10px 0;
+		border-bottom: 1px solid #363d54;
+
+		.search-title {
+			font-size: 20pt;
+    		margin-bottom: 15px
+		}
+
+		input {
+			margin: 10px 0;
+		}
+
+		input[type=text] {
+			background-color: $sidebar-background-color;
+			border-color: $sidebar-foreground-color;
+			color: $sidebar-foreground-color;
+		}
+
+		input[type=text]:focus {
+			box-shadow: 0px 0px 5px $sidebar-highlight-color;
+			@extend .animate;
+		}
+
+		.btn {
+			background-color: $sidebar-background-color;
+			border-color: $sidebar-foreground-color;
+			color: $sidebar-foreground-color;
+			margin: 10px 0;
+			@extend .animate;
+		}
+
+		.btn:hover,
+		.btn:focus {
+			box-shadow: 0px 0px 5px $sidebar-highlight-color;
+		}
+
+		.btn:active {
+			border-color: $sidebar-highlight-color;
+			color: $sidebar-highlight-color;
+		}
+	}
+}
+
+.sidebar-open {
+	width: 12%;
+	min-width: 225px;
+
+	.nav-item-text {
+		display: inlne;
+	}
+
+	.search-container {
+		display: block;
+	}
+
+	.search-icon {
+		display: none;
+	}
+
+	.logo {
+		display: none;
+	}
+
+	.company {
+		display: block;
+	}
+}
+
+.sidebar-closed {
+	width: 30px;
+
+	.nav-item-text {
+		display: none;
+	}
+
+	.search-container {
+		display: none;
+	}
+
+	.search-icon {
+		display: block;
+		font-size: 20pt;
+		padding-bottom: 30px;
+		border-bottom: 1px solid #363d54;
+	}
+
+	.company {
+		display: none;
+	}
+
+	.logo {
+		display: block;
+	}
+}
+
+/* Header Styles */
+.header-container {
+	height: 50px;
+	background-color: $header-background-color;
+	color: $grey-text;
+
+
+	div {
+		height: inherit;
+	}
+
+	.right-menu {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-end;
+	}
+
+	.left-menu {
+		display: flex;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start;
+	}
+
+	.user {
+		margin: 0 15px;
+	}
+
+	.sidebar-toggle {
+		margin: 0 5px;
+		cursor: pointer;
+	}
+
+	.sidebar-toggle:hover {
+		color: $sidebar-highlight-color;
+	}
+}
+
+
+/* Main Card Styling */
+.main-card {
+	background-color: #fff;
+	margin: 15px;
+	flex: 1;
+
+	.card-title {
+		font-size: 20pt;
+	}
+
+	.el-card__header {
+		border-bottom-width: 2px;
+	}
+}
