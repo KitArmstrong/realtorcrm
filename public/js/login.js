@@ -4,7 +4,8 @@
 
 'use strict';
 
-var realtorcrm.mainlogin = {};
+var realtorcrm = realtorcrm || {};
+realtorcrm.mainlogin = {};
 
 realtorcrm.mainlogin.init = function()
 {

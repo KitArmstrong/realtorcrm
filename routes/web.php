@@ -13,7 +13,7 @@
 
 // Landing page route.
 Route::get('/', function () {
-    return view('login');
+    return view('layouts.login');
 })->name('mainlogin');
 
 // Authorization and login routes.
