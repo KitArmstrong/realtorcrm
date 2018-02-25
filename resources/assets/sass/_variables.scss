@@ -3,9 +3,14 @@ $grey-text: #C5C4C4;
 
 
 // Sidebar
-$sidebar-background-color: #151E3F;
+$sidebar-background-color: #02325f;
 $sidebar-foreground-color: #C5C4C4;
 $sidebar-highlight-color: #FFF;
+$sidebar-input-background: #062542;
 
 // Header
-$header-background-color: #003054;
+$header-background-color: #05729b;
+
+// Buttons
+$main-button-background-focus: rgba(137, 208, 234, 0.18823529411764706); 
+$main-button-color: #69cdf3;

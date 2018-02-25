@@ -19,10 +19,14 @@ Route::get('/', function () {
 // Authorization and login routes.
 Auth::routes();
 
+	Route::post('/contact/add', 'ContactController@addContactDetails');
+
 // Protected route group.
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'AppController@index')->name('home');
 
-    // API protected routes.
+    // Vue protected routes.
 	Route::get('/user', 'UserController@getLoggedInUser');
+
+
 });

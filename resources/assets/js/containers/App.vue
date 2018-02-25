@@ -16,7 +16,9 @@
 <script>
 	import AppHeader from '../components/AppHeader.vue';
 	import Sidebar from '../components/Sidebar.vue';
-	import nav from '../_sidebarNav.js';
+	import nav from '../data/_sidebarNav.js';
+	
+	const BREAKPOINT = 1000;
 
     export default {
     	name: 'app',
@@ -32,9 +34,29 @@
    			}
  		},
 
+ 		mounted: function () {
+			window.addEventListener('resize', this.resizeSidebar);
+		},
+
+		beforeDestroy: function () {
+			window.removeEventListener('resize', this.resizeSidebar);
+		},
+
  		methods: {
  			toggleSidebar: function() {
  				this.sidebarOpen = !this.sidebarOpen;
+ 			},
+ 			resizeSidebar: function(event) {
+ 				let width = event.target.outerWidth;
+
+ 				if(width < BREAKPOINT)
+ 				{
+ 					this.sidebarOpen = false;
+ 				}
+ 				else
+ 				{
+ 					this.sidebarOpen = true;
+ 				}
  			}
  		}
     }

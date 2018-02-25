@@ -19,7 +19,7 @@ class CreateContactAddressesTable extends Migration
             $table->string('address2');
             $table->string('city');
             $table->string('state_province', 3);
-            $table->string('country');
+            $table->string('country', 3);
             $table->string('zip_postal', 10);
             $table->timestamps();
         });

@@ -5,9 +5,10 @@
 
 import Vue from 'vue';
 import Router from 'vue-router';
-import ContactCardShell from '../components/ContactCardShell.vue';
-import GroupCardShell from '../components/GroupCardShell.vue';
-import CompanyCardShell from '../components/CompanyCardShell.vue';
+import ContactCardBodyList from '../components/ContactCardBodyList.vue';
+import ContactCardBodyAdd from '../components/ContactCardBodyAdd.vue';
+import GroupCardShell from '../containers/GroupCardShell.vue';
+import CompanyCardShell from '../containers/CompanyCardShell.vue';
 
 Vue.use(Router);
 
@@ -15,8 +16,13 @@ export default new Router({
   routes: [
     {
       path: '/contacts',
-      name: 'ContactCardShell',
-      component: ContactCardShell
+      name: 'ContactCardBodyList',
+      component: ContactCardBodyList
+    },
+    {
+      path: '/contacts/add',
+      name: 'ContactCardBodyAdd',
+      component: ContactCardBodyAdd
     },
     {
       path: '/groups',

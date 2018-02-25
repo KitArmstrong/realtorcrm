@@ -61,12 +61,23 @@ body,
   float: left;
 }
 
+.el-checkbox__label,
+.el-checkbox {
+  font-size: 16px;
+  color: inherit;
+}
+
+textarea,
+input {
+  font-family: Arial;
+}
+
 /* Sidebar Styles */
 
 .sidebar {
   height: 100%;
   padding: 0 20px;
-  background-color: #151E3F;
+  background-color: #02325f;
   color: #C5C4C4;
 }
 
@@ -120,18 +131,17 @@ body,
 }
 
 .sidebar .search-container input[type=text] {
-  background-color: #151E3F;
+  background-color: #062542;
   border-color: #C5C4C4;
   color: #C5C4C4;
 }
 
 .sidebar .search-container input[type=text]:focus {
-  -webkit-box-shadow: 0px 0px 5px #FFF;
-          box-shadow: 0px 0px 5px #FFF;
+  border: 1px solid #FFF;
 }
 
 .sidebar .search-container .btn {
-  background-color: #151E3F;
+  background-color: #02325f;
   border-color: #C5C4C4;
   color: #C5C4C4;
   margin: 10px 0;
@@ -139,12 +149,10 @@ body,
 
 .sidebar .search-container .btn:hover,
 .sidebar .search-container .btn:focus {
-  -webkit-box-shadow: 0px 0px 5px #FFF;
-          box-shadow: 0px 0px 5px #FFF;
+  border: 1px solid #FFF;
 }
 
 .sidebar .search-container .btn:active {
-  border-color: #FFF;
   color: #FFF;
 }
 
@@ -204,7 +212,7 @@ body,
 
 .header-container {
   height: 50px;
-  background-color: #003054;
+  background-color: #05729b;
   color: #C5C4C4;
 }
 
@@ -246,6 +254,7 @@ body,
 
 .header-container .user {
   margin: 0 15px;
+  color: #FFF;
 }
 
 .header-container .sidebar-toggle {
@@ -257,7 +266,7 @@ body,
   color: #FFF;
 }
 
-/* Main Card Styling */
+/* Main Card Styling  - General */
 
 .main-card {
   background-color: #fff;
@@ -265,13 +274,166 @@ body,
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.main-card .main-card-left {
+  padding-right: 0;
 }
 
 .main-card .card-title {
+  margin: 0;
+  font-weight: normal;
+  display: inline;
   font-size: 20pt;
+}
+
+.main-card .section-heading {
+  margin: 0 0 20px 0;
+  font-weight: normal;
+  font-size: 18pt;
+}
+
+.main-card .section-heading-middle {
+  margin: 20px 0;
+  font-weight: normal;
+  font-size: 18pt;
 }
 
 .main-card .el-card__header {
   border-bottom-width: 2px;
+}
+
+.main-card .card-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.main-card .top-options {
+  float: right;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  margin-left: auto;
+}
+
+.main-card .top-options a {
+  margin-left: 10px;
+}
+
+.main-card .el-card__body {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow-y: auto;
+}
+
+.main-card .card-slot-body {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.main-card .form-fill {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+/* Contact Add Form */
+
+.add-contact .form-row {
+  margin: 10px 0;
+}
+
+.add-contact .padding-right {
+  padding-right: 20px;
+}
+
+.add-contact label,
+.add-contact input[type=checkbox] {
+  cursor: pointer;
+}
+
+.add-contact .form-date-picker {
+  width: 100%;
+}
+
+.add-contact .form-footer {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.add-contact .footer-buttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.add-contact .el-input-number {
+  width: 100%;
+  min-width: 150px;
+}
+
+.add-contact .contact-add-btn {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}
+
+.add-contact .contact-notes {
+  width: 80%;
+}
+
+/* Helper classes */
+
+.margin-right {
+  margin-right: 20px;
+}
+
+.margin-top {
+  margin-top: 20px;
+}
+
+.relative {
+  position: relative;
 }
 
