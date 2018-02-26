@@ -58146,19 +58146,19 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   routes: [{
     path: '/contacts',
-    name: 'ContactCardBodyList',
+    name: 'contacts',
     component: __WEBPACK_IMPORTED_MODULE_2__components_ContactCardBodyList_vue___default.a
   }, {
     path: '/contacts/add',
-    name: 'ContactCardBodyAdd',
+    name: 'contact-add',
     component: __WEBPACK_IMPORTED_MODULE_3__components_ContactCardBodyAdd_vue___default.a
   }, {
     path: '/groups',
-    name: 'GroupCardShell',
+    name: 'groups',
     component: __WEBPACK_IMPORTED_MODULE_4__containers_GroupCardShell_vue___default.a
   }, {
     path: '/companies',
-    name: 'CompanyCardShell',
+    name: 'companies',
     component: __WEBPACK_IMPORTED_MODULE_5__containers_CompanyCardShell_vue___default.a
   }]
 }));
@@ -61292,6 +61292,196 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -61304,68 +61494,166 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-			name: 'contactCardBodyAdd',
-			components: {
-						ContactCardShell: __WEBPACK_IMPORTED_MODULE_0__containers_ContactCardShell_vue___default.a,
-						StatusDropDown: __WEBPACK_IMPORTED_MODULE_1__StatusDropDown_vue___default.a,
-						MotivationDropDown: __WEBPACK_IMPORTED_MODULE_2__MotivationDropDown_vue___default.a,
-						BestMethodDropDown: __WEBPACK_IMPORTED_MODULE_3__BestMethodDropDown_vue___default.a,
-						BestTimeDropDown: __WEBPACK_IMPORTED_MODULE_4__BestTimeDropDown_vue___default.a,
-						HomeTypeDropDown: __WEBPACK_IMPORTED_MODULE_5__HomeTypeDropDown_vue___default.a,
-						FeaturesDropDown: __WEBPACK_IMPORTED_MODULE_6__FeaturesDropDown_vue___default.a,
-						CountryDropDown: __WEBPACK_IMPORTED_MODULE_7__CountryDropDown_vue___default.a,
-						ProvStateDropDown: __WEBPACK_IMPORTED_MODULE_8__ProvStateDropDown_vue___default.a
+	name: 'contactCardBodyAdd',
+	components: {
+		ContactCardShell: __WEBPACK_IMPORTED_MODULE_0__containers_ContactCardShell_vue___default.a,
+		StatusDropDown: __WEBPACK_IMPORTED_MODULE_1__StatusDropDown_vue___default.a,
+		MotivationDropDown: __WEBPACK_IMPORTED_MODULE_2__MotivationDropDown_vue___default.a,
+		BestMethodDropDown: __WEBPACK_IMPORTED_MODULE_3__BestMethodDropDown_vue___default.a,
+		BestTimeDropDown: __WEBPACK_IMPORTED_MODULE_4__BestTimeDropDown_vue___default.a,
+		HomeTypeDropDown: __WEBPACK_IMPORTED_MODULE_5__HomeTypeDropDown_vue___default.a,
+		FeaturesDropDown: __WEBPACK_IMPORTED_MODULE_6__FeaturesDropDown_vue___default.a,
+		CountryDropDown: __WEBPACK_IMPORTED_MODULE_7__CountryDropDown_vue___default.a,
+		ProvStateDropDown: __WEBPACK_IMPORTED_MODULE_8__ProvStateDropDown_vue___default.a
+	},
+
+	data: function data() {
+		return {
+			formData: {
+				fname: '',
+				lname: '',
+				mphone: '',
+				hphone: '',
+				aphone: '',
+				email: '',
+				company: '',
+				title: '',
+				address1: '',
+				address2: '',
+				city: '',
+				prov: '',
+				country: '',
+				postal: '',
+				status: '',
+				motivation: '',
+				sdate: '',
+				edate: '',
+				refby: '',
+				conmethod: '',
+				contime: '',
+				hometype: '',
+				homeage: '',
+				feet: '',
+				bedrooms: '',
+				bathrooms: '',
+				location: '',
+				features: [],
+				maxprice: '',
+				preapprove: '',
+				notes: ''
 			},
 
-			data: function data() {
-						return {
-									formData: {
-												fname: '',
-												lname: '',
-												mphone: '',
-												hphone: '',
-												aphone: '',
-												email: '',
-												company: '',
-												title: '',
-												address1: '',
-												address2: '',
-												city: '',
-												prov: '',
-												country: '',
-												postal: '',
-												status: '',
-												motivation: '',
-												sdate: '',
-												edate: '',
-												refby: '',
-												conmethod: '',
-												contime: '',
-												hometype: '',
-												homeage: '',
-												feet: '',
-												bedrooms: '',
-												bathrooms: '',
-												location: '',
-												features: [],
-												maxprice: '',
-												preapprove: '',
-												notes: ''
-									},
-									cardSubTitle: 'Add New'
-						};
+			formErrors: {
+				fname: {
+					hasError: false,
+					errors: []
+				},
+				lname: {
+					hasError: false,
+					errors: []
+				},
+				mphone: {
+					hasError: false,
+					errors: []
+				},
+				hphone: {
+					hasError: false,
+					errors: []
+				},
+				aphone: {
+					hasError: false,
+					errors: []
+				},
+				email: {
+					hasError: false,
+					errors: []
+				},
+				company: {
+					hasError: false,
+					errors: []
+				},
+				title: {
+					hasError: false,
+					errors: []
+				},
+				address1: {
+					hasError: false,
+					errors: []
+				},
+				address2: {
+					hasError: false,
+					errors: []
+				},
+				city: {
+					hasError: false,
+					errors: []
+				},
+				postal: {
+					hasError: false,
+					errors: []
+				},
+				refby: {
+					hasError: false,
+					errors: []
+				},
+				feet: {
+					hasError: false,
+					errors: []
+				},
+				location: {
+					hasError: false,
+					errors: []
+				},
+				maxprice: {
+					hasError: false,
+					errors: []
+				},
+				notes: {
+					hasError: false,
+					errors: []
+				}
 			},
 
+			cardSubTitle: 'Add New'
+		};
+	},
 
-			methods: {
-						contactFormSubmit: function contactFormSubmit() {
-									axios.post('/contact/add', this.formData).then(function (response) {
-												console.log(response);
-									}).catch(function (error) {
-												console.log(error);
-									});
-						}
+
+	methods: {
+		contactFormSubmit: function contactFormSubmit() {
+			var _this = this;
+
+			axios.post('/contact/add', this.formData).then(function (response) {
+				if (response.data.success) {
+					_this.$router.push({ name: 'contacts' }, _this.openAddSuccessMessage);
+				}
+			}).catch(function (response) {
+				if (!response.response.data.success) {
+					_this.handleErrors(response.response.data.errors);
+				}
+			});
+		},
+
+		handleErrors: function handleErrors(errors) {
+			for (var input in errors) {
+				this.formErrors[input].hasError = true;
+
+				for (var errorNumber in errors[input]) {
+					var singleError = errors[input][errorNumber];
+					this.formErrors[input].errors[errorNumber] = singleError;
+				}
 			}
+		},
+
+		openAddSuccessMessage: function openAddSuccessMessage() {
+			this.$message({
+				message: 'Contact has been succesfully added.',
+				type: 'success',
+				duration: 3000,
+				customClass: 'success-notification'
+			});
+		}
+	}
 });
 
 /***/ }),
@@ -62864,15 +63152,24 @@ var render = function() {
                                 }
                               },
                               [
-                                _c("el-col", { attrs: { span: 10 } }, [
-                                  _vm._v("First Name")
-                                ]),
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "is-required",
+                                    attrs: { span: 10 }
+                                  },
+                                  [_vm._v("First Name")]
+                                ),
                                 _vm._v(" "),
                                 _c(
                                   "el-col",
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.fname.hasError
+                                      },
                                       attrs: { type: "text", name: "fname" },
                                       model: {
                                         value: _vm.formData.fname,
@@ -62892,6 +63189,30 @@ var render = function() {
                             _c(
                               "el-row",
                               {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.fname.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.fname.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
                                 staticClass: "form-row",
                                 attrs: {
                                   type: "flex",
@@ -62900,15 +63221,24 @@ var render = function() {
                                 }
                               },
                               [
-                                _c("el-col", { attrs: { span: 10 } }, [
-                                  _vm._v("Last Name")
-                                ]),
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "is-required",
+                                    attrs: { span: 10 }
+                                  },
+                                  [_vm._v("Last Name")]
+                                ),
                                 _vm._v(" "),
                                 _c(
                                   "el-col",
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.lname.hasError
+                                      },
                                       attrs: { type: "text", name: "lname" },
                                       model: {
                                         value: _vm.formData.lname,
@@ -62920,6 +63250,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.lname.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.lname.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -62945,6 +63299,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.mphone.hasError
+                                      },
                                       attrs: { type: "text", name: "mphone" },
                                       model: {
                                         value: _vm.formData.mphone,
@@ -62956,6 +63314,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.mphone.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.mphone.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -62981,6 +63363,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.hphone.hasError
+                                      },
                                       attrs: { type: "text", name: "hphone" },
                                       model: {
                                         value: _vm.formData.hphone,
@@ -62992,6 +63378,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.hphone.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.fname.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63017,6 +63427,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.aphone.hasError
+                                      },
                                       attrs: { type: "text", name: "aphone" },
                                       model: {
                                         value: _vm.formData.aphone,
@@ -63028,6 +63442,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.aphone.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.aphone.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63053,6 +63491,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.email.hasError
+                                      },
                                       attrs: { type: "text", name: "email" },
                                       model: {
                                         value: _vm.formData.email,
@@ -63064,6 +63506,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.email.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.email.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63089,6 +63555,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.company.hasError
+                                      },
                                       attrs: { type: "text", name: "company" },
                                       model: {
                                         value: _vm.formData.company,
@@ -63100,6 +63570,32 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: {
+                                  error: _vm.formErrors.company.hasError
+                                }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(
+                                    _vm.formErrors.company.errors,
+                                    function(error, index) {
+                                      return _c("p", [_vm._v(_vm._s(error))])
+                                    }
+                                  )
                                 )
                               ],
                               1
@@ -63125,6 +63621,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.title.hasError
+                                      },
                                       attrs: { type: "text", name: "title" },
                                       model: {
                                         value: _vm.formData.title,
@@ -63139,6 +63639,30 @@ var render = function() {
                                 )
                               ],
                               1
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "el-row",
+                          {
+                            staticClass: "error-row",
+                            class: { error: _vm.formErrors.title.hasError }
+                          },
+                          [
+                            _c(
+                              "el-col",
+                              {
+                                staticClass: "errors",
+                                attrs: { offset: 10, span: 14 }
+                              },
+                              _vm._l(_vm.formErrors.title.errors, function(
+                                error,
+                                index
+                              ) {
+                                return _c("p", [_vm._v(_vm._s(error))])
+                              })
                             )
                           ],
                           1
@@ -63172,6 +63696,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.address1.hasError
+                                      },
                                       attrs: { type: "text", name: "address1" },
                                       model: {
                                         value: _vm.formData.address1,
@@ -63187,6 +63715,32 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: {
+                                  error: _vm.formErrors.address1.hasError
+                                }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(
+                                    _vm.formErrors.address1.errors,
+                                    function(error, index) {
+                                      return _c("p", [_vm._v(_vm._s(error))])
+                                    }
+                                  )
                                 )
                               ],
                               1
@@ -63212,6 +63766,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.address2.hasError
+                                      },
                                       attrs: { type: "text", name: "address2" },
                                       model: {
                                         value: _vm.formData.address2,
@@ -63227,6 +63785,32 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: {
+                                  error: _vm.formErrors.address2.hasError
+                                }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(
+                                    _vm.formErrors.address2.errors,
+                                    function(error, index) {
+                                      return _c("p", [_vm._v(_vm._s(error))])
+                                    }
+                                  )
                                 )
                               ],
                               1
@@ -63252,6 +63836,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.city.hasError
+                                      },
                                       attrs: { type: "text", name: "city" },
                                       model: {
                                         value: _vm.formData.city,
@@ -63263,6 +63851,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.city.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.city.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63359,6 +63971,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.postal.hasError
+                                      },
                                       attrs: { type: "text", name: "postal" },
                                       model: {
                                         value: _vm.formData.postal,
@@ -63370,6 +63986,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.postal.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.postal.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63497,7 +64137,8 @@ var render = function() {
                                       attrs: {
                                         type: "date",
                                         placeholder: "Start Date",
-                                        name: "sdate"
+                                        name: "sdate",
+                                        "value-format": "yyyy-MM-dd"
                                       },
                                       model: {
                                         value: _vm.formData.sdate,
@@ -63538,7 +64179,8 @@ var render = function() {
                                       attrs: {
                                         type: "date",
                                         placeholder: "End Date",
-                                        name: "edate"
+                                        name: "edate",
+                                        "value-format": "yyyy-MM-dd"
                                       },
                                       model: {
                                         value: _vm.formData.edate,
@@ -63575,6 +64217,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.refby.hasError
+                                      },
                                       attrs: { type: "text", name: "refby" },
                                       model: {
                                         value: _vm.formData.refby,
@@ -63586,6 +64232,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.refby.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.refby.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63777,6 +64447,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.feet.hasError
+                                      },
                                       attrs: { type: "text", name: "feet" },
                                       model: {
                                         value: _vm.formData.feet,
@@ -63788,6 +64462,30 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: { error: _vm.formErrors.feet.hasError }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(_vm.formErrors.feet.errors, function(
+                                    error,
+                                    index
+                                  ) {
+                                    return _c("p", [_vm._v(_vm._s(error))])
+                                  })
                                 )
                               ],
                               1
@@ -63893,6 +64591,10 @@ var render = function() {
                                   { attrs: { span: 14 } },
                                   [
                                     _c("el-input", {
+                                      class: {
+                                        "has-error":
+                                          _vm.formErrors.location.hasError
+                                      },
                                       attrs: { type: "text", name: "location" },
                                       model: {
                                         value: _vm.formData.location,
@@ -63908,6 +64610,32 @@ var render = function() {
                                     })
                                   ],
                                   1
+                                )
+                              ],
+                              1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: {
+                                  error: _vm.formErrors.location.hasError
+                                }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(
+                                    _vm.formErrors.location.errors,
+                                    function(error, index) {
+                                      return _c("p", [_vm._v(_vm._s(error))])
+                                    }
+                                  )
                                 )
                               ],
                               1
@@ -63974,20 +64702,38 @@ var render = function() {
                                     attrs: { span: 9 }
                                   },
                                   [
-                                    _c("el-input", {
-                                      attrs: { type: "text", name: "maxprice" },
-                                      model: {
-                                        value: _vm.formData.maxprice,
-                                        callback: function($$v) {
-                                          _vm.$set(
-                                            _vm.formData,
-                                            "maxprice",
-                                            $$v
-                                          )
+                                    _c(
+                                      "el-input",
+                                      {
+                                        class: {
+                                          "has-error":
+                                            _vm.formErrors.maxprice.hasError
                                         },
-                                        expression: "formData.maxprice"
-                                      }
-                                    })
+                                        attrs: {
+                                          type: "text",
+                                          name: "maxprice"
+                                        },
+                                        model: {
+                                          value: _vm.formData.maxprice,
+                                          callback: function($$v) {
+                                            _vm.$set(
+                                              _vm.formData,
+                                              "maxprice",
+                                              $$v
+                                            )
+                                          },
+                                          expression: "formData.maxprice"
+                                        }
+                                      },
+                                      [
+                                        _c("i", {
+                                          staticClass:
+                                            "el-input__icon fas fa-dollar-sign",
+                                          attrs: { slot: "prefix" },
+                                          slot: "prefix"
+                                        })
+                                      ]
+                                    )
                                   ],
                                   1
                                 ),
@@ -64023,6 +64769,32 @@ var render = function() {
                                 )
                               ],
                               1
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-row",
+                              {
+                                staticClass: "error-row",
+                                class: {
+                                  error: _vm.formErrors.maxprice.hasError
+                                }
+                              },
+                              [
+                                _c(
+                                  "el-col",
+                                  {
+                                    staticClass: "errors",
+                                    attrs: { offset: 10, span: 14 }
+                                  },
+                                  _vm._l(
+                                    _vm.formErrors.maxprice.errors,
+                                    function(error, index) {
+                                      return _c("p", [_vm._v(_vm._s(error))])
+                                    }
+                                  )
+                                )
+                              ],
+                              1
                             )
                           ],
                           1
@@ -64051,6 +64823,7 @@ var render = function() {
                     _vm._v(" "),
                     _c("el-input", {
                       staticClass: "contact-notes",
+                      class: { "has-error": _vm.formErrors.notes.hasError },
                       attrs: {
                         type: "textarea",
                         name: "notes",
@@ -64077,6 +64850,24 @@ var render = function() {
                     )
                   ],
                   1
+                )
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "el-row",
+              {
+                staticClass: "error-row",
+                class: { error: _vm.formErrors.notes.hasError }
+              },
+              [
+                _c(
+                  "el-col",
+                  { staticClass: "errors", attrs: { offset: 10, span: 14 } },
+                  _vm._l(_vm.formErrors.notes.errors, function(error, index) {
+                    return _c("p", [_vm._v(_vm._s(error))])
+                  })
                 )
               ],
               1

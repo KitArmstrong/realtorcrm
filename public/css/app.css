@@ -61,6 +61,17 @@ body,
   float: left;
 }
 
+.success-notification {
+  background-color: #e2f1da;
+  border-color: #449e17;
+  color: #449e17 !important;
+}
+
+.success-notification p,
+.success-notification i {
+  color: #449e17 !important;
+}
+
 .el-checkbox__label,
 .el-checkbox {
   font-size: 16px;
@@ -374,7 +385,28 @@ input {
 /* Contact Add Form */
 
 .add-contact .form-row {
-  margin: 10px 0;
+  margin: 10px 0 0 0;
+  position: relative;
+}
+
+.add-contact .errors {
+  margin-top: 0;
+  margin-bottom: 0;
+  color: #ea0c0c;
+  font-size: .8rem;
+}
+
+.add-contact .errors p {
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.add-contact .error-row {
+  display: none;
+}
+
+.add-contact .error-row.error {
+  display: block;
 }
 
 .add-contact .padding-right {
@@ -394,6 +426,7 @@ input {
   -webkit-box-flex: 1;
       -ms-flex-positive: 1;
           flex-grow: 1;
+  padding-bottom: 20px;
 }
 
 .add-contact .footer-buttons {
@@ -435,5 +468,20 @@ input {
 
 .relative {
   position: relative;
+}
+
+.is-required::before {
+  font-family: Font Awesome\ 5 Free;
+  font-weight: 600;
+  content: "\F069";
+  position: absolute;
+  top: 3px;
+  left: -10px;
+  font-size: 6px;
+  color: #ea0c0c;
+}
+
+.has-error input {
+  border-color: #ea0c0c;
 }
 

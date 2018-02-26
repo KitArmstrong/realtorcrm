@@ -1,5 +1,6 @@
 // General
 $grey-text: #C5C4C4;
+$error-red: #ea0c0c;
 
 
 // Sidebar
@@ -14,3 +15,8 @@ $header-background-color: #05729b;
 // Buttons
 $main-button-background-focus: rgba(137, 208, 234, 0.18823529411764706); 
 $main-button-color: #69cdf3;
+
+// Notifications
+$success-background-color: #e2f1da;
+$success-border-color: #449e17;
+$success-text-color: #449e17 !important;

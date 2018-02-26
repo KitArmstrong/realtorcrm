@@ -19,7 +19,7 @@ Route::get('/', function () {
 // Authorization and login routes.
 Auth::routes();
 
-	Route::post('/contact/add', 'ContactController@addContactDetails');
+	Route::post('/contact/add', 'ContactController@addContact');
 
 // Protected route group.
 Route::middleware('auth')->group(function () {

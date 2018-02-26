@@ -16,22 +16,22 @@ export default new Router({
   routes: [
     {
       path: '/contacts',
-      name: 'ContactCardBodyList',
+      name: 'contacts',
       component: ContactCardBodyList
     },
     {
       path: '/contacts/add',
-      name: 'ContactCardBodyAdd',
+      name: 'contact-add',
       component: ContactCardBodyAdd
     },
     {
       path: '/groups',
-      name: 'GroupCardShell',
+      name: 'groups',
       component: GroupCardShell
     },
     {
       path: '/companies',
-      name: 'CompanyCardShell',
+      name: 'companies',
       component: CompanyCardShell
     }
   ]

@@ -4,25 +4,19 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ContactController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-
-    }
+    const NOTETYPE = 'CN';
 
     /**
      * Adds a new contact and all details.
      *
      * @return JSON response of success.
      */
-    public function addContactDetails(Request $request)
+    public function addContact(Request $request)
     {
        $validator = $this->getFormValidator($request);
 
@@ -35,11 +29,74 @@ class ContactController extends Controller
             ), 422);
         }
 
-        // Add the forms here
+        // Get all form data.
+        $formData = $request->all();
 
+        // Set the current date and time.
+        $now = new \DateTime();
+
+        // Insert contact details.
+        $contactDetails = [
+            'user_id'        =>  Auth::id(),
+            'firstname'      =>  $formData['fname'],
+            'lastname'       =>  $formData['lname'],
+            'mobile_phone'   =>  $formData['mphone'],
+            'home_phone'     =>  $formData['hphone'],
+            'alt_phone'      =>  $formData['aphone'],
+            'email'          =>  $formData['email'],
+            'company'        =>  $formData['company'],
+            'title'          =>  $formData['title'],
+            'status'         =>  $formData['status'],
+            'startdate'      =>  $formData['sdate'],
+            'enddate'        =>  $formData['edate'],
+            'motive'         =>  $formData['motivation'],
+            'referred_by'    =>  $formData['refby'],
+            'contact_method' => $formData['conmethod'],
+            'contact_time'   => $formData['contime'],
+            'created_at'     => $now,
+            'updated_at'     => $now,
+        ];
+
+        $contactId = DB::table('contacts')->insertGetId($contactDetails);
+
+        // Prepare address details.
+        $addressDetails = [
+            'address1'       => $formData['address1'],
+            'address2'       => $formData['address2'],
+            'city'           => $formData['city'],
+            'state_province' => $formData['prov'],
+            'country'        => $formData['country'],
+            'zip_postal'     => $formData['postal'],
+        ];
+
+        // Add address if entered.
+        if(array_filter($addressDetails))
+        {
+            // Add the times the insert.
+            $addressDetails['created_at'] = $now;
+            $addressDetails['updated_at'] = $now;
+
+            $addressId = DB::table('addresses')->insertGetId($addressDetails);
+
+            // Create the cross reference.
+            DB::table('address_contact')->insert(['contact_id' => $contactId, 'address_id' => $addressId]);
+        }
+
+        // Add contact notes.
+        if($formData['notes'])
+        {
+            $noteDetails = [
+                'note_type'     => self::NOTETYPE,
+                'associated_id' => $contactId,
+                'note'          => $formData['notes'],
+            ];
+
+            DB::table('notes')->insert($noteDetails);
+        }
+           
         return response()->json(array(
             'success' => true,
-            'errors' => ''
+            'errors' => '',
         ));
     }
 
