@@ -9,6 +9,7 @@ import ContactCardBodyList from '../components/ContactCardBodyList.vue';
 import ContactCardBodyAdd from '../components/ContactCardBodyAdd.vue';
 import GroupCardShell from '../containers/GroupCardShell.vue';
 import CompanyCardShell from '../containers/CompanyCardShell.vue';
+import ContactCardBodyView from '../components/ContactCardBodyView.vue';
 
 Vue.use(Router);
 
@@ -23,6 +24,11 @@ export default new Router({
       path: '/contacts/add',
       name: 'contact-add',
       component: ContactCardBodyAdd
+    },
+    {
+      path: '/contacts/:id',
+      name: 'contacts-view',
+      component: ContactCardBodyView
     },
     {
       path: '/groups',

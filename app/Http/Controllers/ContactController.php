@@ -156,4 +156,39 @@ class ContactController extends Controller
         return $validator;
     }
 
+    /**
+     * Returns list of contacts offest by the page.
+     * @param  Request $request 
+     * @return JSON array of contacts
+     */
+    public function getContactListing(Request $request)
+    {
+        $columns = ['id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email'];
+
+        $contacts = DB::table('contacts')->select($columns)->where('user_id', Auth::id())->orderBy('lastname')->get();
+        $contacts = $contacts->toArray();
+
+        return response()->json($contacts);
+    }
+
+    /**
+     * Returns a single contact.
+     * @param  Request $request   
+     * @param  Integer  $contactId 
+     * @return JSON contact
+     */
+    public function getContact(Request $request, $contactId) 
+    {
+        $columns = ['firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'company', 'title',
+                    'status', 'startdate', 'enddate', 'motive', 'referred_by', 'contact_method', 'contact_time', 
+                    'address1', 'address2', 'city', 'state_province', 'country', 'zip_postal'];
+
+        $contact = DB::table('contacts')
+                        ->leftJoin('address_contact', 'contacts.id', '=', 'address_contact.contact_id')
+                        ->leftJoin('addresses', 'address_contact.address_id', '=', 'addresses.id')
+                        ->select($columns)
+                        ->where('contacts.id', $contactId)->first();
+
+        return response()->json($contact);
+    }
 }

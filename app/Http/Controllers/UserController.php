@@ -15,6 +15,6 @@ class UserController extends Controller
             'lastname' => Auth::user()->lastname
         );
 
-        return json_encode($user);
+        return response()->json($user);
     }
 }

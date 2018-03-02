@@ -75,6 +75,15 @@ input {
 	font-family: Arial;
 }
 
+a {
+	text-decoration: none;
+	color: $link-color;
+}
+
+a:hover,
+a:focus {
+	text-decoration: underline;
+}
 
 /* Sidebar Styles */
 .sidebar
@@ -390,6 +399,48 @@ input {
 
 	.contact-notes {
 		width: 80%;
+	}
+}
+
+/* Contact Add Form */
+.contact-listing {
+
+	.list-container {
+		flex-direction: column;
+	}
+
+	.contact-row {
+		
+	}
+
+	.card-body-controls {
+		margin-bottom: 20px;
+	}
+
+	.contact-item {
+		border: 1px solid $card-border-color;
+		padding: 10px;
+		margin-bottom: 5px;
+		border-radius: .2rem;
+
+		.contact-name {
+			margin: 0 0 5px 0;
+			font-size: 1.6em;
+			font-weight: 600;
+		}
+	}
+
+	.contact-item:hover,
+	.contact-item:focus {
+		background-color: $card-hover-background;
+		border-color: $card-hover-border;
+		cursor: pointer;
+		@extend .animate;
+	}
+
+	.contact-item:active {
+		background-color: $card-active-background;
+		border-color: $card-active-border;
 	}
 }
 

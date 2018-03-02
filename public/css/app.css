@@ -24,7 +24,9 @@ body,
 
 .animate,
 .sidebar .search-container input[type=text]:focus,
-.sidebar .search-container .btn {
+.sidebar .search-container .btn,
+.contact-listing .contact-item:hover,
+.contact-listing .contact-item:focus {
   -webkit-transition: all .3s ease;
   transition: all .3s ease;
 }
@@ -81,6 +83,16 @@ body,
 textarea,
 input {
   font-family: Arial;
+}
+
+a {
+  text-decoration: none;
+  color: #217ce0;
+}
+
+a:hover,
+a:focus {
+  text-decoration: underline;
 }
 
 /* Sidebar Styles */
@@ -454,6 +466,44 @@ input {
 
 .add-contact .contact-notes {
   width: 80%;
+}
+
+/* Contact Add Form */
+
+.contact-listing .list-container {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.contact-listing .card-body-controls {
+  margin-bottom: 20px;
+}
+
+.contact-listing .contact-item {
+  border: 1px solid #d2d8da;
+  padding: 10px;
+  margin-bottom: 5px;
+  border-radius: .2rem;
+}
+
+.contact-listing .contact-item .contact-name {
+  margin: 0 0 5px 0;
+  font-size: 1.6em;
+  font-weight: 600;
+}
+
+.contact-listing .contact-item:hover,
+.contact-listing .contact-item:focus {
+  background-color: #f1f0f0;
+  border-color: #a9a4a4;
+  cursor: pointer;
+}
+
+.contact-listing .contact-item:active {
+  background-color: #ded8d8;
+  border-color: #403f3f;
 }
 
 /* Helper classes */
