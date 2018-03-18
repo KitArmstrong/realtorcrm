@@ -36,6 +36,7 @@
 
  		mounted: function () {
 			window.addEventListener('resize', this.resizeSidebar);
+			this.resizeSidebar();
 		},
 
 		beforeDestroy: function () {
@@ -47,7 +48,15 @@
  				this.sidebarOpen = !this.sidebarOpen;
  			},
  			resizeSidebar: function(event) {
- 				let width = event.target.outerWidth;
+ 				let width;
+ 				if(event)
+ 				{
+ 					width = event.target.outerWidth;
+ 				}
+ 				else
+ 				{
+ 					width = window.innerWidth;
+ 				}
 
  				if(width < BREAKPOINT)
  				{

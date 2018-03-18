@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\DB;
 class ContactController extends Controller
 {
     const NOTETYPE = 'CN';
+    const PAGESIZE = 20;
 
     /**
      * Adds a new contact and all details.
@@ -21,7 +22,7 @@ class ContactController extends Controller
        $validator = $this->getFormValidator($request);
 
         // If validation failes return the errors.
-        if ($validator->fails())
+        if($validator->fails())
         {
             return response()->json(array(
                 'success' => false,
@@ -72,7 +73,7 @@ class ContactController extends Controller
         // Add address if entered.
         if(array_filter($addressDetails))
         {
-            // Add the times the insert.
+            // Add the times to insert.
             $addressDetails['created_at'] = $now;
             $addressDetails['updated_at'] = $now;
 
@@ -163,12 +164,26 @@ class ContactController extends Controller
      */
     public function getContactListing(Request $request)
     {
-        $columns = ['id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email'];
+        // Calculate the offset for paging.
+        $page = $request->input('page', 1);
+        $offset = ($page -1) * self::PAGESIZE;
 
-        $contacts = DB::table('contacts')->select($columns)->where('user_id', Auth::id())->orderBy('lastname')->get();
+        $columns = ['id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'status'];
+
+        $contacts = DB::table('contacts')
+                        ->select($columns)
+                        ->where('user_id', Auth::id())
+                        ->limit(20)
+                        ->offset($offset)
+                        ->orderBy('lastname')->get();
         $contacts = $contacts->toArray();
 
-        return response()->json($contacts);
+        $response = [
+            'total' => 21,
+            'contacts' => $contacts
+        ];
+
+        return response()->json($response);
     }
 
     /**

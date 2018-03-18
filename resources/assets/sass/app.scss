@@ -3,7 +3,7 @@
 @import '../../../node_modules/element-ui/lib/theme-chalk/index.css';
 
 // Fonts
-@import url("https://fonts.googleapis.com/css?family=Raleway:300,400,600");
+@import url("https://fonts.googleapis.com/css?family=Quicksand");
 
 // Variables
 @import "_variables.scss";
@@ -20,7 +20,7 @@ body,
 .app {
 	height: 100%;
 	margin: 0;
-	font-family: "Raleway";
+	font-family: "Quicksand", sans-serif;
 }
 
 .app {
@@ -70,6 +70,34 @@ body,
 	color: inherit;
 }
 
+.el-input__inner,
+.el-textarea__inner {
+	border-radius: 0;
+}
+
+.el-form-item__label {
+	font-size: 16px;
+	color: inherit;
+	cursor: default;
+}
+
+.el-select {
+	width: 100%;
+}
+
+.el-popover {
+	text-align: left;
+	white-space: pre-line;
+	font-size: 16px;
+
+	.popover-icon {
+		font-size: 16pt;
+		display: inline-block;
+		float: right;
+		cursor: pointer;
+	}
+}
+
 textarea,
 input {
 	font-family: Arial;
@@ -83,6 +111,20 @@ a {
 a:hover,
 a:focus {
 	text-decoration: underline;
+}
+
+.el-button {
+	border: 0;
+	border-radius: 0;
+	background-color: $header-background-color;
+	color: #FFF;
+	font-size: 16px;
+}
+
+.el-button:hover,
+.el-button:focus {
+	color: #FFF;
+	background-color: #0d8cbb;
 }
 
 /* Sidebar Styles */
@@ -143,8 +185,9 @@ a:focus {
 
 		input[type=text] {
 			background-color: $sidebar-input-background;
-			border-color: $sidebar-foreground-color;
+			border: 0;
 			color: $sidebar-foreground-color;
+			border-radius: 0;
 		}
 
 		input[type=text]:focus {
@@ -153,16 +196,8 @@ a:focus {
 		}
 
 		.btn {
-			background-color: $sidebar-background-color;
-			border-color: $sidebar-foreground-color;
-			color: $sidebar-foreground-color;
 			margin: 10px 0;
 			@extend .animate;
-		}
-
-		.btn:hover,
-		.btn:focus {
-			border: 1px solid $sidebar-highlight-color;
 		}
 
 		.btn:active {
@@ -272,6 +307,7 @@ a:focus {
 	flex: 1;
 	display: flex;
 	flex-direction: column;
+	border-radius: 0;
 
 	.main-card-left {
 		padding-right: 0;
@@ -333,6 +369,12 @@ a:focus {
 		flex-grow: 1;
 		flex-direction: column;
 	}
+
+	.form-footer {
+		display: flex;
+		margin-top: 20px;
+		margin-bottom: 20px;
+	}
 }
 
 /* Contact Add Form */
@@ -366,18 +408,13 @@ a:focus {
 		padding-right: 20px;
 	}
 
-	label,
+	.el-checkbox__label,
 	input[type=checkbox] {
 		cursor: pointer;
 	}
 
 	.form-date-picker {
 		width: 100%;
-	}
-
-	.form-footer {
-		flex-grow: 1;
-		padding-bottom: 20px;
 	}
 
 	.footer-buttons {
@@ -400,33 +437,46 @@ a:focus {
 	.contact-notes {
 		width: 80%;
 	}
+
+	.preapprove {
+		padding-left: 10px;
+	}
 }
 
-/* Contact Add Form */
+/* Contact listing Form */
 .contact-listing {
 
 	.list-container {
 		flex-direction: column;
 	}
 
-	.contact-row {
-		
-	}
-
 	.card-body-controls {
 		margin-bottom: 20px;
+		justify-content: space-between;
+	}
+
+	.el-pager li {
+		font-size: 16px;
 	}
 
 	.contact-item {
 		border: 1px solid $card-border-color;
 		padding: 10px;
 		margin-bottom: 5px;
-		border-radius: .2rem;
 
 		.contact-name {
 			margin: 0 0 5px 0;
 			font-size: 1.6em;
 			font-weight: 600;
+			display: inline-block;
+		}
+
+		.buyer-icon,
+		.seller-icon {
+			float: right;
+			font-size: 1.6em;
+			margin-left: 5px;
+			color: #97999c;
 		}
 	}
 
@@ -444,6 +494,90 @@ a:focus {
 	}
 }
 
+/* Contact View Page */
+.view-contact {
+	
+	.padding-right {
+		padding-right: 20px;
+	}
+
+	.contact-name {
+		font-size: 24pt;
+		margin: 0;
+	}
+
+	.contact-status {
+		font-size: 16pt;
+		font-weight: 500;
+		margin-left: 10px;
+	}
+
+	.label {
+		font-weight: 700;
+	}
+
+	.view-row {
+		margin-bottom: 10px;
+	}
+
+	.address-buttons {
+		margin-top: 20px;
+
+		button {
+			margin-right: 10px;
+		}
+	}
+
+	.view-header {
+		margin: 0 0 30px 0;
+	}
+
+	.el-tabs {
+
+		.el-tabs__item {
+			font-size: inherit;
+		}
+
+		.el-tabs__item.is-active,
+		.el-tabs__item:hover {
+			color: $header-background-color;
+		}
+	}
+
+	.request-cards {
+		border-left: 1px solid #e4e7ed;
+
+		.el-tabs__nav {
+			border-radius: 0;
+		}
+	}
+
+	.form-footer {
+		margin-bottom: 0;
+	}
+}
+
+/* Address dialog */
+.addressDialog {
+
+	.el-dialog {
+		width: 60%;
+		height: 60%;
+		display: flex;
+		flex-direction: column;
+	}
+
+	.el-dialog__body {
+		display: flex;
+		flex-grow: 1;
+		padding: 0 20px 20px 20px;
+	}
+
+	.dialogErrorMsg {
+		font-size: 16px;
+	}
+}
+
 /* Helper classes */
 .margin-right {
 	margin-right: 20px;
@@ -457,12 +591,11 @@ a:focus {
 	position: relative;
 }
 
-.is-required::before {
+.el-form-item.is-required .el-form-item__label:before {
 	font-family: Font Awesome\ 5 Free;
 	font-weight: 600;
 	content: "\f069"; 
 	position: absolute;
-	top: 3px;
 	left: -10px;
 	font-size: 6px;
 	color: $error-red;
@@ -470,4 +603,48 @@ a:focus {
 
 .has-error input {
 	border-color: $error-red;
+}
+
+.wrap {
+	overflow-wrap: break-word;
+}
+
+.d-flex {
+	display: flex;
+}
+
+.d-none {
+	display: none;
+}
+
+.d-just-stretch {
+	justify-content: stretch;
+}
+
+.d-just-center {
+	justify-content: center;
+}
+
+.d-align-center {
+	align-items: center;
+}
+
+.d-just-space-around {
+	justify-content: space-around;
+}
+
+.d-just-content {
+	justify-content: flex-end;
+}
+
+.d-column {
+	flex-direction: column;
+}
+
+.d-grow {
+	flex-grow: 1;
+}
+
+.d-shrink {
+	flex-shrink: 0;
 }

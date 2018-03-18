@@ -2,9 +2,15 @@
 	<ContactCardShell :cardSubTitle="cardSubTitle">
 		<div slot="card-body" class=" contact-listing">
 			<el-row type="flex" class="card-body-controls">
-                <el-col :span="24">
-                    These are the controls
-                </el-col>
+                <span class="filters">These are the controls</span>
+                <span class="paging-links">
+                    <el-pagination
+                    layout="prev, pager, next"
+                    :total="totalContacts"
+                    :page-size="20"
+                    @current-change="newPage">
+                    </el-pagination>
+                </span>
             </el-row>
             <el-row type="flex" class="list-container">
                 <ContactListingRow v-for="(contactRowSet, index) in contacts" :key="index" :contactRowSet="contactRowSet"></ContactListingRow>
@@ -29,6 +35,7 @@
     		return {
     			cardSubTitle: '',
                 contacts: [],
+                totalContacts: 0,
     		}
     	},
 
@@ -36,7 +43,8 @@
             axios.get(`/contacts`)
             .then(response => {
                 // Array of contacts is returned. Chunk the array into arrays of four.
-                this.contacts = this.chunkArray(response.data, 4);
+                this.contacts = this.chunkArray(response.data.contacts, 4);
+                this.totalContacts = response.data.total;
             });
         },
 
@@ -52,6 +60,19 @@
 
                 return chunks;
             },
+
+            newPage: function(newPage) {
+                axios.get('/contacts', {
+                    params: {
+                        page: newPage
+                    }
+                })
+                .then(response => {
+                    // Array of contacts is returned. Chunk the array into arrays of four.
+                    this.contacts = this.chunkArray(response.data.contacts, 4);
+                    this.totalContacts = response.data.total;
+                });
+            }
         },
     }
 </script>
