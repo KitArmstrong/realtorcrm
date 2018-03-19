@@ -10,8 +10,8 @@ export default {
 			text: 'Mobile Phone'	
 		},
 		{
-			value: 'WP',
-			text: 'Work Phone'
+			value: 'HP',
+			text: 'Home Phone'
 		},
 		{
 			value: 'AP',

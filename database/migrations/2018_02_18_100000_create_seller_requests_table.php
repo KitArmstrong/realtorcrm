@@ -24,6 +24,8 @@ class CreateSellerRequestsTable extends Migration
             $table->string('features', 2)->nullable();
             $table->integer('max_price')->nullable();
             $table->string('pre_approved', 1)->nullable();
+            $table->date('startdate')->nullable();
+            $table->date('enddate')->nullable();
         });
     }
 

@@ -1,6 +1,6 @@
 <template>
     <el-row class="contact-row" >
-        <ContactItem v-for="(contact, index) in contactRowSet" :key="contact.id" :contact="contact"></ContactItem>
+        <ContactItem v-for="(contact, index) in contactRowSet" :key="contact.contact_id" :contact="contact"></ContactItem>
     </el-row>
 </template>
 

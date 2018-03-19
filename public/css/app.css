@@ -608,12 +608,12 @@ a:focus {
   color: #05729b;
 }
 
-.view-contact .request-cards {
-  border-left: 1px solid #e4e7ed;
-}
-
 .view-contact .request-cards .el-tabs__nav {
   border-radius: 0;
+}
+
+.view-contact .pre-approved {
+  color: #449e17 !important;
 }
 
 .view-contact .form-footer {

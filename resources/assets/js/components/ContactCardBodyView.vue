@@ -24,7 +24,7 @@
 							</el-row>
 							<el-row type="flex" justify="center" class="view-row">
 								<el-col :span="10" class="label">Email</el-col>
-								<el-col :span="14" class="value wrap">{{contact.email}}</el-col>
+								<el-col :span="14" class="value wrap"><a :href="contactMailUrl">{{contact.email}}</a></el-col>
 							</el-row>
 							<el-row type="flex" justify="center" class="view-row">
 								<el-col :span="10" class="label">Company</el-col>
@@ -92,9 +92,7 @@
 				<el-col :lg="8" class="request-cards">
 					<el-row>
 						<el-col :span="24">
-							<BuyerRequestPanel v-if="contact.request.buyer && !contact.request.seller" :buyerRequest="contact.request.buyer"></BuyerRequestPanel>
-							<SellerRequestPanel v-if="contact.request.seller && !contact.request.buyer" :sellerRequest="contact.request.seller"></SellerRequestPanel>
-							<BothRequestPanel v-if="contact.request.buyer && contact.request.seller" :requests="contact.request"></BothRequestPanel>
+							<BuyerRequestPanel v-if="contact.buy_request_id" :contact="contact"></BuyerRequestPanel>
 						</el-col>
 					</el-row>
 				</el-col>	
@@ -135,6 +133,7 @@
     	name: 'contactCardBodyView',
     	components: {
     		ContactCardShell,
+    		BuyerRequestPanel,
     	},
 
     	data() {
@@ -157,8 +156,36 @@
     		fullName: function() {
     			return this.contact.firstname + ' ' + this.contact.lastname;
     		},
+    		contactMailUrl: function() {
+    			return 'mailto:' + this.contact.email;
+    		},
     		contactStatus: function() {
-    			return this.getDropdownText(this.contact.status, this.statusOptions) + ' - ' + this.getDropdownText(this.contact.motive, this.motivationOptions);
+    			let statusTitle = '';
+
+    			if(this.contact.buy_request_id)
+    			{
+    				statusTitle += 'Buyer';
+    				if(this.contact.motive)
+    				{
+    					statusTitle += ' - ' + this.getDropdownText(this.contact.motive, this.motivationOptions);
+    				}
+    			}
+
+    			if(this.contact.sell_request_id)
+    			{
+    				if(statusTitle)
+    				{
+    					statusTitle += ', ';
+    				}
+    				statusTitle += 'Seller';
+
+    				if(this.contact.sell_request_id)
+    				{
+    					statusTitle += ' - ' + this.getDropdwonText(this.contact.motive, this.motivationOptions);
+    				}
+    			}
+
+    			return statusTitle;
     		},
     		formattedAddress: function() {
     			if(this.contact.address1 && this.contact.city)

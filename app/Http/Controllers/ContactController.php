@@ -11,6 +11,9 @@ class ContactController extends Controller
 {
     const NOTETYPE = 'CN';
     const PAGESIZE = 20;
+    const BUYER = 'B';
+    const SELLER = 'S';
+    const BOTHREQUEST = 'T';
 
     /**
      * Adds a new contact and all details.
@@ -47,9 +50,6 @@ class ContactController extends Controller
             'email'          =>  $formData['email'],
             'company'        =>  $formData['company'],
             'title'          =>  $formData['title'],
-            'status'         =>  $formData['status'],
-            'startdate'      =>  $formData['sdate'],
-            'enddate'        =>  $formData['edate'],
             'motive'         =>  $formData['motivation'],
             'referred_by'    =>  $formData['refby'],
             'contact_method' => $formData['conmethod'],
@@ -81,6 +81,55 @@ class ContactController extends Controller
 
             // Create the cross reference.
             DB::table('address_contact')->insert(['contact_id' => $contactId, 'address_id' => $addressId]);
+        }
+
+        // Add buyer request if entered.
+        if($formData['status'] == self::BUYER)
+        {
+            $requestDetails = [
+                'home_type'    => $formData['hometype'],
+                'home_age'     => $formData['homeage'],
+                'sq_feet'      => $formData['feet'],
+                'bedrooms'     => $formData['bedrooms'],
+                'bathrooms'    => $formData['bathrooms'],
+                'location'     => $formData['location'],
+                'max_price'    => $formData['maxprice'],
+                'pre_approved' => $formData['preapprove'],
+                'startdate'    =>  $formData['sdate'],
+                'enddate'      =>  $formData['edate'],
+            ];
+
+            if(array_filter($requestDetails))
+            {
+                $requestId = DB::table('buy_requests')->insertGetId($requestDetails);
+
+                // Create cross reference
+                DB::table('contact_buy_request')->insert(['contacts_id' => $contactId, 'buy_request_id' => $requestId]);
+            }
+        }
+
+        // Add seller request if entered.
+        if($formData['status'] == self::SELLER)
+        {
+            $requestDetails = [
+                'home_type'    => $formData['hometype'],
+                'home_age'     => $formData['homeage'],
+                'bedrooms'     => $formData['bedrooms'],
+                'bathrooms'    => $formData['bathrooms'],
+                'location'     => $formData['location'],
+                'max_price'    => $formData['maxprice'],
+                'pre_approved' => $formData['preapprove'],
+                'startdate'    =>  $formData['sdate'],
+                'enddate'      =>  $formData['edate'],
+            ];
+
+            if(array_fiilter($requestDetails))
+            {
+                $requestId = DB::table('seller_requests')->insertGetId($requestDetails);
+
+                // Create cross reference
+                DB::table('contact_seller_request')->insert(['contacts_id' => $contactId, 'seller_request_id' => $requestId]);
+            }
         }
 
         // Add contact notes.
@@ -166,20 +215,26 @@ class ContactController extends Controller
     {
         // Calculate the offset for paging.
         $page = $request->input('page', 1);
-        $offset = ($page -1) * self::PAGESIZE;
+        $offset = ($page - 1) * self::PAGESIZE;
 
-        $columns = ['id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'status'];
+        $columns = ['contacts.id as contact_id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'buy_requests.id as buy_request_id'];
 
         $contacts = DB::table('contacts')
                         ->select($columns)
+                        ->leftJoin('contact_buy_request', 'contacts.id', '=', 'contact_buy_request.contacts_id')
+                        ->leftJoin('buy_requests', 'contact_buy_request.buy_request_id', '=', 'buy_requests.id')
                         ->where('user_id', Auth::id())
-                        ->limit(20)
+                        ->limit(self::PAGESIZE)
                         ->offset($offset)
                         ->orderBy('lastname')->get();
         $contacts = $contacts->toArray();
 
+        $totalCount = DB::table('contacts')
+                        ->where('user_id', Auth::id())
+                        ->count();
+
         $response = [
-            'total' => 21,
+            'total' => $totalCount,
             'contacts' => $contacts
         ];
 
@@ -195,12 +250,19 @@ class ContactController extends Controller
     public function getContact(Request $request, $contactId) 
     {
         $columns = ['firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'company', 'title',
-                    'status', 'startdate', 'enddate', 'motive', 'referred_by', 'contact_method', 'contact_time', 
-                    'address1', 'address2', 'city', 'state_province', 'country', 'zip_postal'];
+                    'motive', 'referred_by', 'contact_method', 'contact_time', 
+                    'address1', 'address2', 'city', 'state_province', 'country', 'zip_postal', 'buy_requests.home_type as buy_home_type',
+                    'buy_requests.home_age as buy_home_age', 'buy_requests.sq_feet as buy_sq_feet', 'buy_requests.bedrooms as buy_bedrooms',
+                    'buy_requests.bathrooms as buy_bathrooms', 'buy_requests.location as buy_location', 'buy_requests.max_price as buy_max_price',
+                    'buy_requests.pre_approved as buy_pre_approved', 'buy_requests.startdate as buy_startdate', 'buy_requests.enddate as buy_enddate',
+                    'buy_requests.id as buy_request_id'
+                ];
 
         $contact = DB::table('contacts')
                         ->leftJoin('address_contact', 'contacts.id', '=', 'address_contact.contact_id')
                         ->leftJoin('addresses', 'address_contact.address_id', '=', 'addresses.id')
+                        ->leftJoin('contact_buy_request', 'contacts.id', '=', 'contact_buy_request.contacts_id')
+                        ->leftJoin('buy_requests', 'contact_buy_request.buy_request_id', '=', 'buy_requests.id')
                         ->select($columns)
                         ->where('contacts.id', $contactId)->first();
 

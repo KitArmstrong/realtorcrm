@@ -1,10 +1,10 @@
 <template>
-    <el-col :sm="12" :lg="6" class="contact-item" @click.native="openContact(contact.id)">
+    <el-col :sm="12" :lg="6" class="contact-item" @click.native="openContact(contact.contact_id)">
         <p class="contact-name">{{fullName}}</p>
-            <el-tooltip class="item" effect="dark" content="Buyer" placement="top" v-if="contact.status === 'B'">
+            <el-tooltip class="item" effect="dark" content="Buyer" placement="top" v-if="contact.buy_request_id">
                 <span class="buyer-icon"><i class="fas fa-home"></i></span>
             </el-tooltip>
-            <el-tooltip class="item" effect="dark" content="Seller" placement="top" v-if="contact.status === 'S'">
+            <el-tooltip class="item" effect="dark" content="Seller" placement="top" v-if="contact.sell_request_id">
                 <span class="seller-icon"><i class="fas fa-dollar-sign"></i></span>
             </el-tooltip> 
         <div class="contact-details">
@@ -22,7 +22,6 @@
             contact: {
                 type: Object,
                 required: true,
-                default: {}
             }
         },
 
