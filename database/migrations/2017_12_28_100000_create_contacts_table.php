@@ -24,7 +24,6 @@ class CreateContactsTable extends Migration
             $table->string('email')->nullable();
             $table->string('company')->nullable();
             $table->string('title')->nullable();
-            $table->string('motive', 2)->nullable();
             $table->string('referred_by')->nullable();
             $table->string('contact_method', 2)->nullable();
             $table->string('contact_time', 2)->nullable();

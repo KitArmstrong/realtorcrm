@@ -98,6 +98,16 @@ body,
 	}
 }
 
+.el-dropdown-menu {
+	border-radius: 0;
+}
+
+.el-dropdown-menu__item:focus, 
+.el-dropdown-menu__item:not(.is-disabled):hover {
+	background-color: $header-background-color;
+	color: #FFF;
+}
+
 textarea,
 input {
 	font-family: Arial;
@@ -125,6 +135,16 @@ a:focus {
 .el-button:focus {
 	color: #FFF;
 	background-color: #0d8cbb;
+}
+
+.pac-container {
+	min-width: 300px;
+}
+
+.dropdown-btn {
+	color: $header-background-color;
+	background-color: #FFF;
+	border: 1px solid;
 }
 
 /* Sidebar Styles */
@@ -341,6 +361,10 @@ a:focus {
 		align-items: center;
 	}
 
+	.header-buttons .header-btn {
+		margin-left: 5px;
+	}
+
 	.top-options {
 		float: right;
 		display: flex;
@@ -428,14 +452,10 @@ a:focus {
 		min-width: 150px;
 	}
 	
-	.contact-add-btn {
+	.contact-form-buttons {
 		position: absolute;
 		bottom: 0;
 		right: 0;
-	}
-
-	.contact-notes {
-		width: 80%;
 	}
 
 	.preapprove {
@@ -631,11 +651,19 @@ a:focus {
 	align-items: center;
 }
 
+.d-align-end {
+	align-items: flex-end;
+}
+
 .d-just-space-around {
 	justify-content: space-around;
 }
 
-.d-just-content {
+.d-just-space-between {
+	justify-content: space-between;
+}
+
+.d-just-end {
 	justify-content: flex-end;
 }
 

@@ -10,19 +10,49 @@
 </template>
 
 <script>
-  import options from '../data/_motivationOptions.js';
+  import buyerOptions from '../data/_buyerMotivationOptions.js';
+  import sellerOptions from '../data/_sellerMotivationOptions.js';
 
   export default {
     name: 'motivation-dropdown',
 
     data () {
       return {
-        options: options.options,
+        options: [],
         motivation: '',
       }
     },
 
-    props: ['value'],
+    props: {
+      value: {
+          type: String,
+          required: true,
+          default: ''
+      },
+      status: {
+          type: String,
+          required: false,
+          default: ''
+      },
+    },
+
+    watch: {
+      status: function (status) {
+        switch(status)
+        {
+          case 'B':
+            this.options = buyerOptions.options;
+            break;
+
+          case 'S':
+            this.options = sellerOptions.options;
+            break;
+
+          default:
+            this.options = [];
+        }
+      },
+    },
 
     methods: {
       updateMotivation() {

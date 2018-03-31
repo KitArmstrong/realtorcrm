@@ -1,5 +1,5 @@
 /*
- * Array of options for the motivation select.
+ * Array of options for the buyer motivation select.
  * 
  */
 
@@ -27,7 +27,7 @@ export default {
 		},
 		{
 			value: 'SH',
-			text: 'Seconed Home'
+			text: 'Second Home'
 		}
 	]
 }

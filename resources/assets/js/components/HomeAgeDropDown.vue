@@ -1,5 +1,5 @@
 <template>
-  <el-select placeholder="Select" name="country" id="country" filterable v-model="country" @input="updateCountry">
+  <el-select placeholder="Select" name="homeage" v-model="homeage" @input="updateAge">
     <el-option
       v-for="option in options"
       :key="option.value"
@@ -10,23 +10,23 @@
 </template>
 
 <script>
-  import options from '../data/_countries.js';
+  import options from '../data/_homeAgeOptions.js';
 
   export default {
-    name: 'country-dropdown',
+    name: 'homeage-dropdown',
 
     data () {
       return {
         options: options.options,
-        country: '',
+        homeage: '',
       }
     },
 
     props: ['value'],
 
     methods: {
-      updateCountry() {
-        this.$emit('input', this.country);  
+      updateAge() {
+        this.$emit('input', this.homeage);  
       }
     }
   }

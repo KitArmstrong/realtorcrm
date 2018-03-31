@@ -17,7 +17,8 @@
 	import AppHeader from '../components/AppHeader.vue';
 	import Sidebar from '../components/Sidebar.vue';
 	import nav from '../data/_sidebarNav.js';
-	
+	import GoogleMapsLoader from 'google-maps';
+
 	const BREAKPOINT = 1000;
 
     export default {
@@ -37,6 +38,9 @@
  		mounted: function () {
 			window.addEventListener('resize', this.resizeSidebar);
 			this.resizeSidebar();
+
+			GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
+			GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
 		},
 
 		beforeDestroy: function () {

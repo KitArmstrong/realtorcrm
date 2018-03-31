@@ -1,5 +1,5 @@
 <template>
-  <el-select placeholder="Select" name="prov" filterable v-model="prov" @input="updateProv">
+  <el-select placeholder="Select" name="prov" id="prov" filterable v-model="prov" @input="updateProv">
     <el-option
       v-for="option in options"
       :key="option.value"

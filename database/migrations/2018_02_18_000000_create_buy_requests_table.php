@@ -15,6 +15,7 @@ class CreateBuyRequestsTable extends Migration
     {
         Schema::create('buy_requests', function (Blueprint $table) {
             $table->increments('id')->unsigned();
+            $table->string('motive', 2)->nullable();
             $table->string('home_type', 2)->nullable();
             $table->string('home_age', 2)->nullable();
             $table->integer('sq_feet')->nullable();

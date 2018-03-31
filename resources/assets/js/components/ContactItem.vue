@@ -8,7 +8,7 @@
                 <span class="seller-icon"><i class="fas fa-dollar-sign"></i></span>
             </el-tooltip> 
         <div class="contact-details">
-            <div class="contact-phone">{{contact.mobile_phone}}</div>
+            <div class="contact-phone">{{formatPhone(contact.mobile_phone)}}</div>
             <div class="contact-email"><a :href="mailUrl">{{contact.email}}</a></div>
         </div>
     </el-col>
@@ -42,6 +42,25 @@
         methods: {
             openContact: function(contactId) {
                this.$router.push({name: 'contacts-view', params: {id: contactId}});
+            },
+            formatPhone: function(phone) {
+                if(!phone)
+                {
+                return '';
+                }
+                
+                if(phone.length === 10)
+                {
+                    return phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+                }
+                else if(phone.length === 11)
+                {
+                    return phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, "$1-$2-$3-$4");
+                }
+                else
+                {
+                    return phone;
+                }
             },
         },
     }

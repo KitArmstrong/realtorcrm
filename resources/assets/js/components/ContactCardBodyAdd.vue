@@ -115,7 +115,10 @@
 							<el-col :span="12">
 								<h4 class="section-heading">Address</h4>
 								<el-form-item label="Address 1">
-									<el-input type="text" 
+									<el-input type="text"
+										@focus="geolocate()" 
+										placeholder=""
+										id="address1"
 										name="address1" 
 										v-model="formData.address1"
 										:class="{'has-error': formErrors.address1.hasError}"
@@ -183,7 +186,7 @@
 									<StatusDropDown v-model="formData.status"></StatusDropDown>
 								</el-form-item>
 								<el-form-item label="Motivation">
-									<MotivationDropDown v-model="formData.motivation"></MotivationDropDown>
+									<MotivationDropDown v-model="formData.motivation" :status="formData.status"></MotivationDropDown>
 								</el-form-item>
 								<el-form-item label="Start Date">
 									<el-date-picker
@@ -205,6 +208,13 @@
 							     		value-format="yyyy-MM-dd">
 								   	 </el-date-picker>
 								</el-form-item>
+								<h4 class="section-heading-middle">Contact Method</h4>
+								<el-form-item label="Best Method">
+									<BestMethodDropDown v-model="formData.conmethod"></BestMethodDropDown>
+								</el-form-item>
+								<el-form-item label="Best Time">
+									<BestTimeDropDown v-model="formData.contime"></BestTimeDropDown>
+								</el-form-item>
 								<el-form-item label="Referred By">
 									<el-input type="text" 
 										name="refby" 
@@ -218,79 +228,86 @@
 										</el-col>
 									</el-row>
 								</el-form-item>
-								<h4 class="section-heading-middle">Contact Method</h4>
-								<el-form-item label="Best Method">
-									<BestMethodDropDown v-model="formData.conmethod"></BestMethodDropDown>
-								</el-form-item>
-								<el-form-item label="Best Time">
-									<BestTimeDropDown v-model="formData.contime"></BestTimeDropDown>
-								</el-form-item>
 							</el-col>
 							<el-col :span="12">
 								<h4 class="section-heading">Requests</h4>
-								<el-form-item label="Home Type">
-									<HomeTypeDropDown v-model="formData.hometype"></HomeTypeDropDown>
-								</el-form-item>
-								<el-form-item label="Home Age">
-									<el-input type="text" 
-										name="homeage" 
-										v-model="formData.homeage">
-									</el-input>
-								</el-form-item>
-								<el-form-item label="Square Feet">
-									<el-input type="text" 
-										name="feet" 
-										v-model="formData.feet"
-										:class="{'has-error': formErrors.feet.hasError}">
-									</el-input>
-									<el-row :class="{'error': formErrors.feet.hasError}" class="error-row">
-										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.feet.errors">{{ error }}</p>
-										</el-col>
-									</el-row>
-								</el-form-item>
-								<el-form-item label="Bedrooms">
-									<el-input-number v-model="formData.bedrooms" name="bedrooms" :min="0"></el-input-number>
-								</el-form-item>
-								<el-form-item label="Bathrooms">
-									<el-input-number v-model="formData.bathrooms" name="bathrooms" :min="0"></el-input-number>
-								</el-form-item>
-								<el-form-item label="Location">
-									<el-input type="text" 
-										name="location" 
-										v-model="formData.location"
-										:class="{'has-error': formErrors.location.hasError}">
-									</el-input>
-									<el-row :class="{'error': formErrors.location.hasError}" class="error-row">
-										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.location.errors">{{ error }}</p>
-										</el-col>
-									</el-row>
-								</el-form-item>
-								<el-form-item label="Features">
-									<FeaturesDropDown v-model="formData.features"></FeaturesDropDown>
-								</el-form-item>
-								<el-form-item label="Max Price">
-									<el-row>
-										<el-col :span="14">
-											<el-input type="text" 
-												name="maxprice" 
-												v-model="formData.maxprice"
-												:class="{'has-error': formErrors.maxprice.hasError}">
-												<i slot="prefix" class="el-input__icon fas fa-dollar-sign"></i>
-											</el-input>
-										</el-col>
-										<el-col :span="10" class="preapprove">
-											<el-checkbox v-model="formData.preapprove" name="preapprove" true-label="Y" false-label="N">Pre Appr.</el-checkbox>
-										</el-col>
-									</el-row>
-								</el-form-item>
+								<div class="empty-request" v-show="!formData.status">
+									<el-row type="flex" justify="center" class="view-row">
+							            <el-col :span="24" class="label">Select a Status to see the available options</el-col>
+							        </el-row>
+								</div>
+								<div class="buyer-request" v-show="formData.status === 'B'">
+							        <el-form-item label="Home Type">
+							            <HomeTypeDropDown v-model="formData.hometype"></HomeTypeDropDown>
+							        </el-form-item>
+							        <el-form-item label="Home Age">
+							            <HomeAgeDropDown v-model="formData.homeage"></HomeAgeDropDown>						           
+							        </el-form-item>
+							        <el-form-item label="Square Feet">
+							            <el-input type="text" 
+							                name="feet" 
+							                v-model="formData.feet"
+							                :class="{'has-error': formErrors.feet.hasError}">
+							            </el-input>
+							            <el-row :class="{'error': formErrors.feet.hasError}" class="error-row">
+							                <el-col :span="14" class="errors">
+							                    <p v-for="(error, index) in formErrors.feet.errors">{{ error }}</p>
+							                </el-col>
+							            </el-row>
+							        </el-form-item>
+							        <el-form-item label="Bedrooms">
+							            <el-input-number v-model="formData.bedrooms" name="bedrooms" :min="0"></el-input-number>
+							        </el-form-item>
+							        <el-form-item label="Bathrooms">
+							            <el-input-number v-model="formData.bathrooms" name="bathrooms" :min="0"></el-input-number>
+							        </el-form-item>
+							        <el-form-item label="Location">
+							            <el-input type="text" 
+							                name="location" 
+							                v-model="formData.location"
+							                :class="{'has-error': formErrors.location.hasError}">
+							            </el-input>
+							            <el-row :class="{'error': formErrors.location.hasError}" class="error-row">
+							                <el-col :span="14" class="errors">
+							                    <p v-for="(error, index) in formErrors.location.errors">{{ error }}</p>
+							                </el-col>
+							            </el-row>
+							        </el-form-item>
+							        <el-form-item label="Features">
+							            <FeaturesDropDown v-model="formData.features"></FeaturesDropDown>
+							        </el-form-item>
+							        <el-form-item label="Max Price">
+							            <el-row>
+							                <el-col :span="14">
+							                    <el-input type="text" 
+							                        name="maxprice" 
+							                        v-model="formData.maxprice"
+							                        :class="{'has-error': formErrors.maxprice.hasError}">
+							                        <i slot="prefix" class="el-input__icon fas fa-dollar-sign"></i>
+							                    </el-input>
+							                </el-col>
+							                <el-col :span="10" class="preapprove">
+							                    <el-checkbox v-model="formData.preapprove" name="preapprove" true-label="Y" false-label="N">Pre Appr.</el-checkbox>
+							                </el-col>
+							            </el-row>
+							        </el-form-item>
+								</div>
+								<div class="seller-request" v-show="formData.status === 'S'">
+							        <el-form-item label="Minimum Price">
+							            <el-input type="text" 
+							                name="minprice" 
+							                v-model="formData.minprice"
+							                :class="{'has-error': formErrors.minprice.hasError}">
+							                <i slot="prefix" class="el-input__icon fas fa-dollar-sign"></i>
+							            </el-input>
+							        </el-form-item>
+								</div>
 							</el-col>
 						</el-row>
 					</el-col>	
 				</el-row>
-				<el-row class="form-footer d-shrink">
-					<el-col class="d-flex d-column d-just-content">
+				<el-row type="flex" class="form-footer d-shrink">
+					<el-col :xs="24" :sm="24" :md="16" class="">
 						<h4 class="section-heading-middle">Notes</h4>
 						<el-input
 						  type="textarea"
@@ -302,7 +319,12 @@
 						  class="contact-notes"
 						  :class="{'has-error': formErrors.notes.hasError}">
 						</el-input>
-						<el-button native-type="button" form="contact-form" @click.prevent="submitContactForm()" class="main-card-btn contact-add-btn">Save</el-button>
+					</el-col>
+					<el-col :xs="24" :sm="24" :md="8" class="d-flex d-just-end">
+						<el-row type="flex" :gutter="10" class="d-align-end">
+							<el-button @click="previousPage">Cancel</el-button>
+							<el-button native-type="button" form="contact-form" @click.prevent="submitContactForm()" class="main-card-btn">Save</el-button>
+						</el-row>
 					</el-col>
 				</el-row>
 				<el-row :class="{'error': formErrors.notes.hasError}" class="error-row">
@@ -321,11 +343,15 @@
 	import MotivationDropDown from './MotivationDropDown.vue';
 	import BestMethodDropDown from './BestMethodDropDown.vue';
 	import BestTimeDropDown from './BestTimeDropDown.vue';
-	import HomeTypeDropDown from './HomeTypeDropDown.vue';
-	import FeaturesDropDown from './FeaturesDropDown.vue';
 	import CountryDropDown from './CountryDropDown.vue';
 	import ProvStateDropDown from './ProvStateDropDown.vue';
-
+	import HomeTypeDropDown from './HomeTypeDropDown.vue';
+    import FeaturesDropDown from './FeaturesDropDown.vue';
+    import HomeAgeDropDown from './HomeAgeDropDown.vue';
+    import GoogleMapsLoader from 'google-maps';
+    import CountryOptions from '../data/_countries.js';
+    import ProvinceOptions from '../data/_provinces.js';
+    import StateOptions from '../data/_states.js';
 
 	export default {
     	name: 'contactCardBodyAdd',
@@ -335,10 +361,11 @@
     		MotivationDropDown,
     		BestMethodDropDown,
     		BestTimeDropDown,
-    		HomeTypeDropDown,
-    		FeaturesDropDown,
     		CountryDropDown,
     		ProvStateDropDown,
+    		HomeTypeDropDown,
+            FeaturesDropDown,
+            HomeAgeDropDown,
     	},
 
     	data() {
@@ -375,6 +402,7 @@
 	    			maxprice: '',
 	    			preapprove: '',
 	    			notes: '',
+	    			minprice: '',
 	    		},
 
 	    		formErrors: {
@@ -446,6 +474,10 @@
 	    				hasError: false,
 	    				errors: [],
 	    			},
+	    			minprice: {
+	    				hasError: false,
+	    				errors: [],
+	    			}
 	    		},
 
 	    		rules: {
@@ -458,6 +490,20 @@
 		        },
 
     			cardSubTitle: 'Add New',
+    			placeSearch: '',
+    			autocomplete: '',
+    			stateOptions: StateOptions.options,
+    			provinceOptions: ProvinceOptions.options,
+    			countryOptions: CountryOptions.options,
+
+    			addressForm: {
+    			 	street_number: 'short_name',
+			        route: 'long_name',
+			        locality: 'long_name',
+			        administrative_area_level_1: 'short_name',
+			        country: 'short_name',
+			        postal_code: 'short_name'
+    			}
     		}
     	},
 
@@ -486,7 +532,6 @@
           			}
           		});
     		},
-
     		handleErrors: function(errors) {
     			for(let input in errors)
     			{
@@ -499,7 +544,6 @@
     				}
     			}
     		},
-
     		openAddSuccessMessage: function() {
    				this.$message({
 		        	message: 'Contact has been succesfully added.',
@@ -507,7 +551,102 @@
 		        	duration: 3000,
 		        	customClass: 'success-notification',
 		        });
-    		}
+    		},
+            previousPage: function() {
+                this.$router.go(-1);
+            },
+            initAutocomplete: function() {
+	            GoogleMapsLoader.load(google => {
+	 				this.autocomplete = new google.maps.places.Autocomplete(
+	 					document.getElementById('address1'),
+	 					{types: ['geocode']}
+	 				);
+
+	 				this.autocomplete.addListener('place_changed', this.fillInAddress);
+				});
+            },
+            geolocate: function() {
+                if (navigator.geolocation) 
+                {
+		          	navigator.geolocation.getCurrentPosition(function(position) {
+		            	let geolocation = {
+		              		lat: position.coords.latitude,
+		              		lng: position.coords.longitude
+		            	};
+		            	let circle = new google.maps.Circle({
+		              		center: geolocation,
+		             		radius: position.coords.accuracy
+		            	});
+		            	this.autocomplete.setBounds(circle.getBounds());
+		          	});
+		        }
+            },
+            fillInAddress: function() {
+            	let place = this.autocomplete.getPlace();
+
+            	this.formData.address1 = '';
+
+            	for(let i = 0; i < place.address_components.length; i++)
+            	{
+            		let addressType = place.address_components[i].types[0];
+            		if(this.addressForm[addressType])
+            		{
+            			switch(addressType)
+            			{
+            				case 'street_number':
+            					this.formData.address1 = place.address_components[i][this.addressForm[addressType]] + this.formData.address1;
+            					break;
+
+            				case 'route':
+            					this.formData.address1 = this.formData.address1 + ' ' + place.address_components[i][this.addressForm[addressType]];
+            					break;
+
+            				case 'locality':
+            					this.formData.city = place.address_components[i][this.addressForm[addressType]];
+            					break;
+
+            				case 'administrative_area_level_1':
+            					this.formData.prov = place.address_components[i][this.addressForm[addressType]];
+            					break;
+
+            				case 'country':
+            					this.formData.country = place.address_components[i][this.addressForm[addressType]];
+            					break;
+
+            				case 'postal_code':
+            					this.formData.postal = place.address_components[i][this.addressForm[addressType]];
+            					break;
+            			}
+            		}
+            	}
+
+            	// Must format the select elements after setting the values.
+            	this.updateAddressSelects();
+            },
+            updateAddressSelects: function() {
+            	// Must update the country first to set the province or state options.
+            	document.getElementById('country').value = this.getDropdownText(this.formData.country, this.countryOptions);
+
+            	document.getElementById('prov').value = this,getDropdownText(this.formData.prov, this.provinceOptions);
+            },
+            getDropdownText: function(code, options) {
+    			if(!code)
+    			{
+    				return;
+    			}
+
+    			for(let option in options)
+    			{
+    				if(options[option].value === code)
+    				{
+    					return options[option].text;
+    				}
+    			}
+    		},
     	},
+
+    	created: function() {
+    		this.initAutocomplete();
+    	}
     }
 </script>

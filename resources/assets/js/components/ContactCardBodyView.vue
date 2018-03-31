@@ -2,8 +2,18 @@
 	<ContactCardShell :cardSubTitle="cardSubTitle">
 		<div slot="card-body" class="card-slot-body view-contact">
 			<el-row class="view-header">
-				<el-col :span="24">
+				<el-col :span="24" class="d-flex d-just-space-between">
 					<h3 class="contact-name">{{fullName}} <span class="contact-status">{{contactStatus}}</span></h3>
+                    <div class="header-buttons">
+                        <el-button class="view-back-button header-btn" @click="previousPage"><i class="fas fa-undo-alt"></i> Back</el-button>
+                        <el-dropdown class="header-btn" trigger="click">
+                            <el-button class="dropdown-btn"><i class="fas fa-bars"></i></el-button>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>Edit Contact</el-dropdown-item>
+                                <el-dropdown-item>Delete Contact</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                    </div>
 				</el-col>
 			</el-row>
 			<el-row :gutter="20" class="view-body-container">
@@ -12,15 +22,15 @@
 						<el-col :md="10" class="padding-right">
 							<el-row type="flex" justify="center" class="view-row">
 								<el-col :span="10" class="label">Mobile</el-col>
-								<el-col :span="14" class="value">{{contact.mobile_phone}}</el-col>
+								<el-col :span="14" class="value">{{formatPhone(contact.mobile_phone)}}</el-col>
 							</el-row>
 							<el-row type="flex" justify="center" class="view-row" v-if="contact.home_phone">
 								<el-col :span="10" class="label">Home</el-col>
-								<el-col :span="14" class="value">{{contact.home_phone}}</el-col>
+								<el-col :span="14" class="value">{{formatPhone(contact.home_phone)}}</el-col>
 							</el-row>
 							<el-row type="flex" justify="center" class="view-row" v-if="contact.alt_phone">
 								<el-col :span="10" class="label">Alternate</el-col>
-								<el-col :span="14" class="value">{{contact.alt_phone}}</el-col>
+								<el-col :span="14" class="value">{{formatPhone(contact.alt_phone)}}</el-col>
 							</el-row>
 							<el-row type="flex" justify="center" class="view-row">
 								<el-col :span="10" class="label">Email</el-col>
@@ -92,7 +102,8 @@
 				<el-col :lg="8" class="request-cards">
 					<el-row>
 						<el-col :span="24">
-							<BuyerRequestPanel v-if="contact.buy_request_id" :contact="contact"></BuyerRequestPanel>
+							<BuyerRequestPanel v-if="contact.buy_request_id && !contact.sell_request_id" :contact="contact"></BuyerRequestPanel>
+							<SellerRequestPanel v-if="contact.sell_request_id && !contact.buy_request_id" :contact="contact"></SellerRequestPanel>
 						</el-col>
 					</el-row>
 				</el-col>	
@@ -122,7 +133,8 @@
 	import SellerRequestPanel from '../components/SellerRequestPanel.vue';
 	import BothRequestPanel from '../components/BothRequestPanel.vue';
 	import statusOptions from '../data/_statusOptions.js';
-	import motivationOptions from '../data/_motivationOptions.js';
+	import buyerMotivationOptions from '../data/_buyerMotivationOptions.js';
+    import sellerMotivationOptions from '../data/_sellerMotivationOptions.js';
 	import bestMethodOptions from '../data/_bestMethodOptions.js';
 	import bestTimeOptions from '../data/_bestTimeOptions.js';
 	import countryOptions from '../data/_countries.js';
@@ -134,6 +146,7 @@
     	components: {
     		ContactCardShell,
     		BuyerRequestPanel,
+    		SellerRequestPanel,
     	},
 
     	data() {
@@ -141,7 +154,7 @@
     			contact: {},
     			cardSubTitle: 'View Contact',
     			statusOptions: statusOptions.options,
-    			motivationOptions: motivationOptions.options,
+    			motivationOptions: {},
     			bestMethodOptions: bestMethodOptions.options,
     			bestTimeOptions: bestTimeOptions.options,
     			provinceOptions: provinceOptions.options,
@@ -165,9 +178,9 @@
     			if(this.contact.buy_request_id)
     			{
     				statusTitle += 'Buyer';
-    				if(this.contact.motive)
+    				if(this.contact.buy_motive)
     				{
-    					statusTitle += ' - ' + this.getDropdownText(this.contact.motive, this.motivationOptions);
+    					statusTitle += ' - ' + this.getDropdownText(this.contact.buy_motive, this.motivationOptions);
     				}
     			}
 
@@ -179,9 +192,9 @@
     				}
     				statusTitle += 'Seller';
 
-    				if(this.contact.sell_request_id)
+    				if(this.contact.sell_motive)
     				{
-    					statusTitle += ' - ' + this.getDropdwonText(this.contact.motive, this.motivationOptions);
+    					statusTitle += ' - ' + this.getDropdownText(this.contact.sell_motive, this.motivationOptions);
     				}
     			}
 
@@ -273,7 +286,6 @@
     				}
     			}
     		},
-
     		copyAddress: function() {
     			// Get the address and create a textarea element.
    			  	let addressText = document.getElementById('formattedAddress').innerHTML;
@@ -286,31 +298,16 @@
 			  	ta.style.left = '-9999px';
 			  	document.body.appendChild(ta);
 
-			  	// Save any previously selected text a user might have.
-			 	let selected =            
-			    	document.getSelection().rangeCount > 0 
-			      		? document.getSelection().getRangeAt(0)
-			      		: false;
 
 			    // Select the textarea.
 			  	ta.select();
 			  	// Copy and then remove element.
 			  	document.execCommand('copy');
 			  	document.body.removeChild(ta);
-
-			  	// Restore previously selected text if any.
-			  	if (selected) 
-			  	{
-			    	document.getSelection().removeAllRanges(); 
-			    	document.getSelection().addRange(selected); 
-			  	}
     		},
-
     		loadMap: function() {
-    			var that = this;
-
     			// Set up map dialog.
-	            GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
+	           // GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
 
 	            GoogleMapsLoader.load(google => {
 	            	var geocoder = new google.maps.Geocoder();
@@ -337,12 +334,31 @@
     				});
 				});
     		},
-
     		openMapDialog: function() {
     			this.dialogErrorMsg = '';
     			this.loadMap();
     			this.dialogMapVisible = true;
     		},
+            formatPhone: function(phone) {
+                if(phone)
+                {
+                    if(phone.length === 10)
+                    {
+                        return phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+                    }
+                    else if(phone.length === 11)
+                    {
+                        return phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, "$1-$2-$3-$4");
+                    }
+                    else
+                    {
+                        return phone;
+                    }
+                }
+            },
+            previousPage: function() {
+                this.$router.go(-1);
+            },
     	},
 
     	created: function() {
@@ -351,6 +367,15 @@
     		axios.get(`/contact/` + contactId)
             .then(response => {
                 this.contact = response.data;
+
+                if(this.contact.buy_request_id)
+                {
+                    this.motivationOptions = buyerMotivationOptions.options;
+                }
+                else if(this.contact.sell_request_id)
+                {
+                    this.motivationOptions = sellerMotivationOptions.options;
+                }
             });
     	},
     }

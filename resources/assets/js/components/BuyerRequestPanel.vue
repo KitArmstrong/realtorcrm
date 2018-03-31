@@ -6,7 +6,7 @@
         </el-row>
         <el-row type="flex" justify="center" class="view-row">
             <el-col :span="10" class="label">Home Age</el-col>
-            <el-col :span="14" class="value">{{homeAge}}</el-col>
+            <el-col :span="14" class="value">{{getDropdownText(contact.buy_home_age, homeAgeOptions)}}</el-col>
         </el-row>
         <el-row type="flex" justify="center" class="view-row">
             <el-col :span="10" class="label">Square Feet</el-col>
@@ -28,18 +28,24 @@
             <el-col :span="10" class="label">Max Price</el-col>
             <el-col :span="14">
                 <el-row type="flex" justify="center">
-                    <el-col :md="12" class="value margin-right">${{contact.buy_max_price}}</el-col>
+                    <el-col :md="12" class="value margin-right">{{formattedPrice}}</el-col>
                     <el-col :md="12" class="pre-approved">
                         <span v-if="contact.buy_pre_approved == 'Y'"><i class="fas fa-check"></i> Pre-approved</span>
                     </el-col>
                 </el-row>
             </el-col>
         </el-row>
+        <el-row type="flex" justify="center" class="view-row">
+            <el-col :span="10" class="label">Features</el-col>
+            <el-col :span="14" class="value">{{featureList}}</el-col>
+        </el-row>
     </div>
 </template>
 
 <script>
     import homeTypeOptions from '../data/_homeTypeOptions.js';
+    import homeAgeOptions from '../data/_homeAgeOptions.js';
+    import featureOptions from '../data/_featureOptions.js';
 	
     export default {
     	name: 'BuyerRequestPanel',
@@ -54,27 +60,43 @@
     	data() {
     		return {
                 homeTypeOptions: homeTypeOptions.options,
+                homeAgeOptions: homeAgeOptions.options,
+                featureOptions: featureOptions.options,
     		}
     	},
 
         computed: {
-            homeAge: function() {
-                if(this.contact.buy_home_age)
+            featureList: function()
+            {
+                let list = '';
+
+                for(let index in this.contact.features)
                 {
-                    if(this.contact.buy_home_age === 1)
+                    if(!list)
                     {
-                        return this.contact.buy_home_age + ' year';
+                        list = this.getDropdownText(this.contact.features[index].feature, this.featureOptions);
                     }
                     else
                     {
-                        return this.contact.buy_home_age + ' years';
+                        list += ', ' + this.getDropdownText(this.contact.features[index].feature, this.featureOptions);
                     }
                 }
-                else
-                {
-                    return 'No age preference';
-                }
+
+                return list;
             },
+
+            formattedPrice: function()
+            {
+                let formatted = '';
+
+                if(this.contact.buy_max_price)
+                {
+                    let number = parseInt(this.contact.buy_max_price);
+                    formatted = '$' + number.toLocaleString();
+                }
+
+                return formatted;
+            }
         },
 
         methods: {

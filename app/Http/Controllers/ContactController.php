@@ -50,7 +50,6 @@ class ContactController extends Controller
             'email'          =>  $formData['email'],
             'company'        =>  $formData['company'],
             'title'          =>  $formData['title'],
-            'motive'         =>  $formData['motivation'],
             'referred_by'    =>  $formData['refby'],
             'contact_method' => $formData['conmethod'],
             'contact_time'   => $formData['contime'],
@@ -87,24 +86,36 @@ class ContactController extends Controller
         if($formData['status'] == self::BUYER)
         {
             $requestDetails = [
+                'motive'       => $formData['motivation'],
                 'home_type'    => $formData['hometype'],
                 'home_age'     => $formData['homeage'],
                 'sq_feet'      => $formData['feet'],
-                'bedrooms'     => $formData['bedrooms'],
-                'bathrooms'    => $formData['bathrooms'],
+                'bedrooms'     => $formData['bedrooms'] ?: NULL,
+                'bathrooms'    => $formData['bathrooms'] ?: NULL,
                 'location'     => $formData['location'],
                 'max_price'    => $formData['maxprice'],
                 'pre_approved' => $formData['preapprove'],
-                'startdate'    =>  $formData['sdate'],
-                'enddate'      =>  $formData['edate'],
+                'startdate'    => $formData['sdate'],
+                'enddate'      => $formData['edate'],
             ];
 
-            if(array_filter($requestDetails))
+            $features = $formData['features'];
+
+            if(array_filter($requestDetails) || $features)
             {
                 $requestId = DB::table('buy_requests')->insertGetId($requestDetails);
 
                 // Create cross reference
                 DB::table('contact_buy_request')->insert(['contacts_id' => $contactId, 'buy_request_id' => $requestId]);
+
+                // Insert the features.
+                if($features)
+                {
+                    foreach($features as $feature)
+                    {
+                        DB::table('buy_request_feature')->insert(['request_id' => $requestId, 'feature' => $feature]);
+                    }
+                }
             }
         }
 
@@ -112,18 +123,13 @@ class ContactController extends Controller
         if($formData['status'] == self::SELLER)
         {
             $requestDetails = [
-                'home_type'    => $formData['hometype'],
-                'home_age'     => $formData['homeage'],
-                'bedrooms'     => $formData['bedrooms'],
-                'bathrooms'    => $formData['bathrooms'],
-                'location'     => $formData['location'],
-                'max_price'    => $formData['maxprice'],
-                'pre_approved' => $formData['preapprove'],
+                'motive'         =>  $formData['motivation'],
+                'min_price'    => $formData['minprice'],
                 'startdate'    =>  $formData['sdate'],
                 'enddate'      =>  $formData['edate'],
             ];
 
-            if(array_fiilter($requestDetails))
+            if(array_filter($requestDetails))
             {
                 $requestId = DB::table('seller_requests')->insertGetId($requestDetails);
 
@@ -184,10 +190,11 @@ class ContactController extends Controller
             'bedrooms' => 'nullable|numeric|max:255',
             'bathrooms' => 'nullable|numeric|max:255',
             'location' => 'nullable|string|max:255',
-            'features' => 'nullable|array|max:2',
+            'features' => 'nullable|array',
             'maxprice' => 'nullable|integer',
             'preapprove' => 'nullable|string|max:1',
-            'notes' => 'nullable|string|max:1000'
+            'notes' => 'nullable|string|max:1000',
+            'minprice' => 'nullable|integer',
         ];
 
         // Customize the validation messages.
@@ -217,12 +224,15 @@ class ContactController extends Controller
         $page = $request->input('page', 1);
         $offset = ($page - 1) * self::PAGESIZE;
 
-        $columns = ['contacts.id as contact_id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'buy_requests.id as buy_request_id'];
+        $columns = ['contacts.id as contact_id', 'firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 
+                    'buy_requests.id as buy_request_id', 'seller_requests.id as sell_request_id'];
 
         $contacts = DB::table('contacts')
                         ->select($columns)
                         ->leftJoin('contact_buy_request', 'contacts.id', '=', 'contact_buy_request.contacts_id')
                         ->leftJoin('buy_requests', 'contact_buy_request.buy_request_id', '=', 'buy_requests.id')
+                        ->leftJoin('contact_seller_request', 'contacts.id', '=', 'contact_seller_request.contacts_id')
+                        ->leftJoin('seller_requests', 'contact_seller_request.seller_request_id', '=', 'seller_requests.id')
                         ->where('user_id', Auth::id())
                         ->limit(self::PAGESIZE)
                         ->offset($offset)
@@ -250,12 +260,12 @@ class ContactController extends Controller
     public function getContact(Request $request, $contactId) 
     {
         $columns = ['firstname', 'lastname', 'mobile_phone', 'home_phone', 'alt_phone', 'email', 'company', 'title',
-                    'motive', 'referred_by', 'contact_method', 'contact_time', 
-                    'address1', 'address2', 'city', 'state_province', 'country', 'zip_postal', 'buy_requests.home_type as buy_home_type',
+                    'referred_by', 'contact_method', 'contact_time', 'address1', 'address2', 'city', 'state_province', 
+                    'country', 'zip_postal', 'buy_requests.home_type as buy_home_type', 'buy_requests.motive as buy_motive', 'seller_requests.motive as sell_motive',
                     'buy_requests.home_age as buy_home_age', 'buy_requests.sq_feet as buy_sq_feet', 'buy_requests.bedrooms as buy_bedrooms',
                     'buy_requests.bathrooms as buy_bathrooms', 'buy_requests.location as buy_location', 'buy_requests.max_price as buy_max_price',
                     'buy_requests.pre_approved as buy_pre_approved', 'buy_requests.startdate as buy_startdate', 'buy_requests.enddate as buy_enddate',
-                    'buy_requests.id as buy_request_id'
+                    'buy_requests.id as buy_request_id', 'seller_requests.id as sell_request_id', 'seller_requests.min_price as sell_min_price',
                 ];
 
         $contact = DB::table('contacts')
@@ -263,8 +273,18 @@ class ContactController extends Controller
                         ->leftJoin('addresses', 'address_contact.address_id', '=', 'addresses.id')
                         ->leftJoin('contact_buy_request', 'contacts.id', '=', 'contact_buy_request.contacts_id')
                         ->leftJoin('buy_requests', 'contact_buy_request.buy_request_id', '=', 'buy_requests.id')
+                        ->leftJoin('contact_seller_request', 'contacts.id', '=', 'contact_seller_request.contacts_id')
+                        ->leftJoin('seller_requests', 'contact_seller_request.seller_request_id', '=', 'seller_requests.id')
                         ->select($columns)
                         ->where('contacts.id', $contactId)->first();
+
+        $features = DB::table('buy_request_feature')
+                            ->join('contact_buy_request', 'buy_request_feature.request_id', '=', 'contact_buy_request.buy_request_id')
+                            ->select('feature')
+                            ->where('contact_buy_request.contacts_id', $contactId)->get();
+        $features = $features->toArray();
+
+        $contact->features = $features;
 
         return response()->json($contact);
     }
