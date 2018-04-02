@@ -65136,15 +65136,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 					}
 				}
 			}
-
-			// Must format the select elements after setting the values.
-			this.updateAddressSelects();
-		},
-		updateAddressSelects: function updateAddressSelects() {
-			// Must update the country first to set the province or state options.
-			document.getElementById('country').value = this.getDropdownText(this.formData.country, this.countryOptions);
-
-			document.getElementById('prov').value = this, getDropdownText(this.formData.prov, this.provinceOptions);
 		},
 		getDropdownText: function getDropdownText(code, options) {
 			if (!code) {
@@ -65787,6 +65778,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     updateCountry: function updateCountry() {
       this.$emit('input', this.country);
     }
+  },
+  watch: {
+    value: function value(_value) {
+      this.country = this.value;
+    }
   }
 });
 
@@ -65933,10 +65929,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       switch (_country) {
         case 'US':
           this.options = __WEBPACK_IMPORTED_MODULE_1__data_states_js__["a" /* default */].options;
+          this.prov = this.value;
           break;
 
         case 'CA':
           this.options = __WEBPACK_IMPORTED_MODULE_0__data_provinces_js__["a" /* default */].options;
+          this.prov = this.value;
           break;
 
         default:
@@ -66473,7 +66471,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.fname.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66532,7 +66530,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.lname.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66585,7 +66583,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.mphone.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66638,7 +66636,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.fname.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66691,7 +66689,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.aphone.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66744,7 +66742,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.email.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66797,7 +66795,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.company.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66850,7 +66848,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.title.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66922,7 +66920,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.address1.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -66976,7 +66974,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.address2.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -67029,7 +67027,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.city.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -67117,7 +67115,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.postal.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -67317,7 +67315,7 @@ var render = function() {
                                       _vm._l(
                                         _vm.formErrors.refby.errors,
                                         function(error, index) {
-                                          return _c("p", [
+                                          return _c("p", { key: index }, [
                                             _vm._v(_vm._s(error))
                                           ])
                                         }
@@ -67462,8 +67460,8 @@ var render = function() {
                                         _vm._l(
                                           _vm.formErrors.feet.errors,
                                           function(error, index) {
-                                            return _c("p", [
-                                              _vm._v(_vm._s(error))
+                                            return _c("p", { key: index }, [
+                                              _vm._v(" " + _vm._s(error))
                                             ])
                                           }
                                         )
@@ -67548,7 +67546,7 @@ var render = function() {
                                         _vm._l(
                                           _vm.formErrors.location.errors,
                                           function(error, index) {
-                                            return _c("p", [
+                                            return _c("p", { key: index }, [
                                               _vm._v(_vm._s(error))
                                             ])
                                           }
@@ -67823,7 +67821,7 @@ var render = function() {
                   "el-col",
                   { staticClass: "errors", attrs: { span: 14 } },
                   _vm._l(_vm.formErrors.notes.errors, function(error, index) {
-                    return _c("p", [_vm._v(_vm._s(error))])
+                    return _c("p", { key: index }, [_vm._v(_vm._s(error))])
                   })
                 )
               ],

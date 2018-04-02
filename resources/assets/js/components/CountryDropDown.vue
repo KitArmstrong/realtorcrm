@@ -28,6 +28,11 @@
       updateCountry() {
         this.$emit('input', this.country);  
       }
+    },
+    watch: {
+      value: function(value) {
+        this.country = this.value;
+      }
     }
   }
 </script>

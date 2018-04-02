@@ -42,10 +42,12 @@
         {
           case 'US':
             this.options = stateOptions.options;
+            this.prov = this.value;
             break;
 
           case 'CA':
             this.options = provinceOptions.options;
+            this.prov = this.value;            
             break;
 
           default:

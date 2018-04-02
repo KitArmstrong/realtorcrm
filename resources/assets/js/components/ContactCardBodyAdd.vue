@@ -16,7 +16,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.fname.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.fname.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.fname.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -29,7 +29,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.lname.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.lname.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.lname.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -42,7 +42,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.mphone.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.mphone.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.mphone.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -55,7 +55,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.hphone.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.fname.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.fname.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -68,7 +68,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.aphone.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.aphone.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.aphone.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -81,7 +81,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.email.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.email.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.email.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -94,7 +94,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.company.hasError}" class="error-row">
 										<el-col  :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.company.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.company.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -107,7 +107,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.title.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.title.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.title.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -126,7 +126,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.address1.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.address1.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.address1.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -139,7 +139,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.address2.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.address2.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.address2.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -152,7 +152,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.city.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.city.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.city.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -171,7 +171,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.postal.hasError}" class="error-row">
 										<el-col :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.postal.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.postal.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>	
 								</el-form-item>
@@ -224,7 +224,7 @@
 									</el-input>
 									<el-row :class="{'error': formErrors.refby.hasError}" class="error-row">
 										<el-col  :span="14" class="errors">
-											<p v-for="(error, index) in formErrors.refby.errors">{{ error }}</p>
+											<p v-for="(error, index) in formErrors.refby.errors" :key="index">{{ error }}</p>
 										</el-col>
 									</el-row>
 								</el-form-item>
@@ -251,7 +251,7 @@
 							            </el-input>
 							            <el-row :class="{'error': formErrors.feet.hasError}" class="error-row">
 							                <el-col :span="14" class="errors">
-							                    <p v-for="(error, index) in formErrors.feet.errors">{{ error }}</p>
+							                    <p v-for="(error, index) in formErrors.feet.errors" :key="index"> {{ error }}</p>
 							                </el-col>
 							            </el-row>
 							        </el-form-item>
@@ -269,7 +269,7 @@
 							            </el-input>
 							            <el-row :class="{'error': formErrors.location.hasError}" class="error-row">
 							                <el-col :span="14" class="errors">
-							                    <p v-for="(error, index) in formErrors.location.errors">{{ error }}</p>
+							                    <p v-for="(error, index) in formErrors.location.errors" :key="index">{{ error }}</p>
 							                </el-col>
 							            </el-row>
 							        </el-form-item>
@@ -329,7 +329,7 @@
 				</el-row>
 				<el-row :class="{'error': formErrors.notes.hasError}" class="error-row">
 					<el-col  :span="14" class="errors">
-						<p v-for="(error, index) in formErrors.notes.errors">{{ error }}</p>
+						<p v-for="(error, index) in formErrors.notes.errors" :key="index">{{ error }}</p>
 					</el-col>
 				</el-row>
 			</el-form>
@@ -619,30 +619,7 @@
             			}
             		}
             	}
-
-            	// Must format the select elements after setting the values.
-            	this.updateAddressSelects();
             },
-            updateAddressSelects: function() {
-            	// Must update the country first to set the province or state options.
-            	document.getElementById('country').value = this.getDropdownText(this.formData.country, this.countryOptions);
-
-            	document.getElementById('prov').value = this,getDropdownText(this.formData.prov, this.provinceOptions);
-            },
-            getDropdownText: function(code, options) {
-    			if(!code)
-    			{
-    				return;
-    			}
-
-    			for(let option in options)
-    			{
-    				if(options[option].value === code)
-    				{
-    					return options[option].text;
-    				}
-    			}
-    		},
     	},
 
     	created: function() {
