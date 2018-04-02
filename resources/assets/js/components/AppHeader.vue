@@ -3,7 +3,7 @@
 		<el-row>
 			<el-col :span="10" class="left-menu">
 				<span class="sidebar-toggle" @click="toggleSidebar">
-					<i class="fa fa-lg"  :class="[sidebarOpen ? closeIcon : openIcon]"></i>
+					<i class="fa fa-lg"  :class="[sidebarClosed ? openIcon : closeIcon]"></i>
 				</span>
 			</el-col>
 			<el-col :span="10" class="right-menu pull-right">
@@ -26,10 +26,10 @@
     	},
 
     	props: {
-			sidebarOpen: {
+			sidebarClosed: {
 			    type: Boolean,
 			    required: true,
-			    default: true
+			    default: false
 			}
 		},
 

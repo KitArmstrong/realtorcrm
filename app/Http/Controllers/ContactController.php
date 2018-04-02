@@ -66,7 +66,7 @@ class ContactController extends Controller
             'city'           => $formData['city'],
             'state_province' => $formData['prov'],
             'country'        => $formData['country'],
-            'zip_postal'     => $formData['postal'],
+            'zip_postal'     => preg_replace('/-|\s+/', '', $formData['postal']), // Remove whitespace and hyphens
         ];
 
         // Add address if entered.

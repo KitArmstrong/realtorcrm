@@ -7,7 +7,7 @@
                     <div class="header-buttons">
                         <el-button class="view-back-button header-btn" @click="previousPage"><i class="fas fa-undo-alt"></i> Back</el-button>
                         <el-dropdown class="header-btn" trigger="click">
-                            <el-button class="dropdown-btn"><i class="fas fa-bars"></i></el-button>
+                            <el-button class="dropdown-btn"><i class="fas fa-bars"></i>&nbsp;<i class="fas fa-caret-down"></i></el-button>
                             <el-dropdown-menu slot="dropdown">
                                 <el-dropdown-item>Edit Contact</el-dropdown-item>
                                 <el-dropdown-item>Delete Contact</el-dropdown-item>
@@ -307,7 +307,8 @@
     		},
     		loadMap: function() {
     			// Set up map dialog.
-	           // GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
+	           	GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
+				GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
 
 	            GoogleMapsLoader.load(google => {
 	            	var geocoder = new google.maps.Geocoder();

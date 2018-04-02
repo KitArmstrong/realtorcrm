@@ -349,9 +349,6 @@
     import FeaturesDropDown from './FeaturesDropDown.vue';
     import HomeAgeDropDown from './HomeAgeDropDown.vue';
     import GoogleMapsLoader from 'google-maps';
-    import CountryOptions from '../data/_countries.js';
-    import ProvinceOptions from '../data/_provinces.js';
-    import StateOptions from '../data/_states.js';
 
 	export default {
     	name: 'contactCardBodyAdd',
@@ -492,9 +489,6 @@
     			cardSubTitle: 'Add New',
     			placeSearch: '',
     			autocomplete: '',
-    			stateOptions: StateOptions.options,
-    			provinceOptions: ProvinceOptions.options,
-    			countryOptions: CountryOptions.options,
 
     			addressForm: {
     			 	street_number: 'short_name',
@@ -556,7 +550,10 @@
                 this.$router.go(-1);
             },
             initAutocomplete: function() {
-	            GoogleMapsLoader.load(google => {
+				GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
+				GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
+	            
+				GoogleMapsLoader.load(google => {
 	 				this.autocomplete = new google.maps.places.Autocomplete(
 	 					document.getElementById('address1'),
 	 					{types: ['geocode']}

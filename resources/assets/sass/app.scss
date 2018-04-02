@@ -92,7 +92,6 @@ body,
 
 	.popover-icon {
 		font-size: 16pt;
-		display: inline-block;
 		float: right;
 		cursor: pointer;
 	}
@@ -134,7 +133,7 @@ a:focus {
 .el-button:hover,
 .el-button:focus {
 	color: #FFF;
-	background-color: #0d8cbb;
+	background-color: #2174ca;
 }
 
 .pac-container {
@@ -147,16 +146,23 @@ a:focus {
 	border: 1px solid;
 }
 
+.dropdown-btn:hover,
+.dropdown-btn:focus {
+	color: $header-background-color;
+	background-color: #FFF;
+	border: 1px solid;
+}
+
 /* Sidebar Styles */
 .sidebar
  {
 	height: 100%;
-	padding:0 20px;
 	background-color: $sidebar-background-color;
 	color: $sidebar-foreground-color;
+	border: none;
 
 	.brand {
-		padding: 10px 0;
+		padding: 10px 20px;
 	    font-size: 24pt;
 	    margin-bottom: 20px;
 	    color: white;
@@ -166,33 +172,9 @@ a:focus {
 	    }
 	}
 
-	.nav {
-		list-style: none;
-		padding: 0;
-		margin: 10px 0;
-		font-size: 20pt;
-	}
-
-	.nav-item {
-		padding: 10px 0;
-	}
-
-	.nav-item a {
-		text-decoration: none;
-		color: $sidebar-foreground-color;
-	}
-
-	.nav-item i {
-		width: 15%;
-	}
-
-	.nav-item .router-link-active {
-		color: $sidebar-highlight-color;
-	}
-
 	.search-container {
-		padding: 10px 0;
-		border-bottom: 1px solid #363d54;
+		padding: 10px 20px;
+		border-bottom: 1px solid #bfcbd9;
 
 		.search-title {
 			font-size: 20pt;
@@ -224,12 +206,32 @@ a:focus {
 			color: $sidebar-highlight-color;
 		}
 	}
+
+	.nav-item:hover,
+	.nav-item:focus,
+	.nav-item:active {
+		background-color: #48576a;
+	}
+
+	.nav-item i {
+		width: 15%;
+	}
+
+	.nav-item, 
+	.nav-item i {
+		font-size: 16pt;
+		color: #bfcbd9;
+	}
+
+	.nav-item.is-active,
+	.nav-item.is-active i {
+		color: #409EFF;
+	}
 }
 
-.sidebar-open {
-	width: 12%;
-	min-width: 225px;
-
+.sidebar:not(.el-menu--collapse) {
+	width: 15%;
+	min-width: 250PX;
 	.nav-item-text {
 		display: inlne;
 	}
@@ -251,22 +253,16 @@ a:focus {
 	}
 }
 
-.sidebar-closed {
-	width: 30px;
-
-	.nav-item-text {
-		display: none;
-	}
-
+.sidebar.el-menu--collapse {
 	.search-container {
 		display: none;
 	}
 
 	.search-icon {
 		display: block;
-		font-size: 20pt;
-		padding-bottom: 30px;
-		border-bottom: 1px solid #363d54;
+		font-size: 16pt;
+		padding: 0 20px 20px 20px;
+		border-bottom: 1px solid #bfcbd9;
 	}
 
 	.company {

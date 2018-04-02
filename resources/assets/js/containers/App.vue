@@ -1,11 +1,11 @@
 <template>
 	<el-row class="app">
-		<Sidebar :navItems="nav" :sidebarOpen="sidebarOpen">
+		<Sidebar :navItems="nav" :sidebarClosed="sidebarClosed">
 			<span slot="logo" class="logo"><img src="/img/logo.png"></span>
 			<span slot="company" class="company">Realtor CRM</span>
 		</Sidebar>
 		<div class="canvas">
-			<AppHeader :sidebarOpen="sidebarOpen" v-on:toggleSidebar="toggleSidebar"/>
+			<AppHeader :sidebarClosed="sidebarClosed" v-on:toggleSidebar="toggleSidebar"/>
 			<div class="content">
 				<router-view></router-view>
 			</div>
@@ -31,16 +31,13 @@
     	data () {
     		return {
       			nav: nav.items,
-      			sidebarOpen: true,
+      			sidebarClosed: false,
    			}
  		},
 
  		mounted: function () {
 			window.addEventListener('resize', this.resizeSidebar);
 			this.resizeSidebar();
-
-			GoogleMapsLoader.LIBRARIES = ['geometry', 'places'];
-			GoogleMapsLoader.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
 		},
 
 		beforeDestroy: function () {
@@ -49,7 +46,7 @@
 
  		methods: {
  			toggleSidebar: function() {
- 				this.sidebarOpen = !this.sidebarOpen;
+ 				this.sidebarClosed= !this.sidebarClosed;
  			},
  			resizeSidebar: function(event) {
  				let width;
@@ -64,11 +61,11 @@
 
  				if(width < BREAKPOINT)
  				{
- 					this.sidebarOpen = false;
+ 					this.sidebarClosed = true;
  				}
  				else
  				{
- 					this.sidebarOpen = true;
+ 					this.sidebarClosed = false;
  				}
  			}
  		}

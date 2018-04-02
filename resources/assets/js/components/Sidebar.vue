@@ -1,21 +1,22 @@
 <template>
-	<div class="sidebar" :class="[sidebarOpen ? open : closed]">
-	  	<nav class="sidebar-nav">
-	  		<div class="brand">
-	  			<slot name="logo"></slot>
-	  			<slot name="company"></slot>
-	  		</div>
-	  		<div class="search-icon">
-	  			<i class="fas fa-search"></i>
-	  		</div>
-	  	  	<SidebarSearch />
-	     	<ul class="nav">
-	     		<li class="nav-item" v-for="(item, index) in navItems">
-                    <SidebarNavLink :name="item.name" :url="item.url" :icon="item.icon" />
-                </li>
-	      	</ul>
-	    </nav>
-	</div>
+	<el-menu default-active="2" class="sidebar" :collapse="sidebarClosed">
+		<div class="brand">
+  			<slot name="logo"></slot>
+			<slot name="company"></slot>
+	  	</div>
+		<div class="search-icon">
+  			<i class="fas fa-search"></i>
+		</div>
+	  	<SidebarSearch />
+  		<el-menu-item class="nav-item" v-for="(item, index) in navItems" :key="index" :index="index.toString()">
+    		<i :class="item.icon"></i>
+    		<span slot="title">
+	
+					{{item.name}}
+
+			</span>
+  		</el-menu-item>
+	</el-menu>
 </template>
 
 <script>
@@ -40,10 +41,10 @@
 			    required: true,
 			    default: () => []
 			},
-			sidebarOpen: {
+			sidebarClosed: {
 			    type: Boolean,
 			    required: true,
-			    default: true
+			    default: false
 			}
 		},
     }
