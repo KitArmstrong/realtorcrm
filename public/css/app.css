@@ -286,7 +286,7 @@ a:focus {
 .header-container {
   height: 50px;
   background-color: #409EFF;
-  color: #C5C4C4;
+  color: #FFF;
 }
 
 .header-container div {
@@ -326,8 +326,16 @@ a:focus {
 }
 
 .header-container .user {
-  margin: 0 15px;
-  color: #FFF;
+  margin-right: 15px;
+}
+
+.header-container .logout {
+  cursor: pointer;
+  margin-right: 15px;
+}
+
+.header-container .logout:hover {
+  color: #C5C4C4;
 }
 
 .header-container .sidebar-toggle {
@@ -336,7 +344,7 @@ a:focus {
 }
 
 .header-container .sidebar-toggle:hover {
-  color: #FFF;
+  color: #C5C4C4;
 }
 
 /* Main Card Styling  - General */

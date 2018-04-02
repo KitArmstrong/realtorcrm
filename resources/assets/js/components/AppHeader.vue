@@ -10,6 +10,11 @@
 				<span class="user">
 					{{ displayname }}
 				</span>
+				<el-tooltip effect="dark" content="Log out" placement="top">
+					<span class="logout" @click="logout()">
+						<i class="fas fa-sign-out-alt"></i>
+					</span>
+				</el-tooltip>
 			</el-col>
 		</el-row>
 	</header>
@@ -39,11 +44,20 @@
 			    .then(response => {
 			    	// JSON responses are automatically parsed.
 			    	this.displayname = response.data.firstname + ' ' + response.data.lastname;
-			    })
+			    });
 		    },
 		    toggleSidebar: function () {
 		    	this.$emit('toggleSidebar');
-		    }
+			},
+			logout: function() {
+				axios.post('/logout')
+				.then(response => {
+					if(response.status === 200)
+					{
+						window.location.replace('/');
+					}
+				});
+			}
 		},
 
 		created() {

@@ -279,7 +279,7 @@ a:focus {
 .header-container {
 	height: 50px;
 	background-color: $header-background-color;
-	color: $grey-text;
+	color: $sidebar-highlight-color;
 
 
 	div {
@@ -301,9 +301,18 @@ a:focus {
 	}
 
 	.user {
-		margin: 0 15px;
-		color: $sidebar-highlight-color;
+		margin-right: 15px;
 	}
+
+	.logout {
+		cursor: pointer;
+		margin-right: 15px;
+	}
+
+	.logout:hover {
+		color: $grey-text;
+	}
+
 
 	.sidebar-toggle {
 		margin: 0 5px;
@@ -311,7 +320,7 @@ a:focus {
 	}
 
 	.sidebar-toggle:hover {
-		color: $sidebar-highlight-color;
+		color: $grey-text;
 	}
 }
 

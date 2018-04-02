@@ -5,6 +5,11 @@
 
 export default {
   items: [
+    { 
+      name: 'Dashboard',
+      url: '/dashboard',
+      icon: 'fas fa-table'
+    },
     {
       name: 'Contacts',
       url: '/contacts',

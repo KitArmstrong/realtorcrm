@@ -38,6 +38,9 @@
  		mounted: function () {
 			window.addEventListener('resize', this.resizeSidebar);
 			this.resizeSidebar();
+
+			// set the default router page.
+			this.$router.push({name: 'dashboard'});
 		},
 
 		beforeDestroy: function () {

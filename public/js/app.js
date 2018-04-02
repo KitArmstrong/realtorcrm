@@ -16518,7 +16518,7 @@ function required(rule, value, source, errors, options, type) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(87);
-module.exports = __webpack_require__(275);
+module.exports = __webpack_require__(278);
 
 
 /***/ }),
@@ -60222,6 +60222,9 @@ var BREAKPOINT = 1000;
   mounted: function mounted() {
     window.addEventListener('resize', this.resizeSidebar);
     this.resizeSidebar();
+
+    // set the default router page.
+    this.$router.push({ name: 'dashboard' });
   },
 
   beforeDestroy: function beforeDestroy() {
@@ -60319,6 +60322,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 	data: function data() {
@@ -60349,6 +60357,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 		},
 		toggleSidebar: function toggleSidebar() {
 			this.$emit('toggleSidebar');
+		},
+		logout: function logout() {
+			axios.post('/logout').then(function (response) {
+				if (response.status === 200) {
+					window.location.replace('/');
+				}
+			});
 		}
 	},
 
@@ -60394,8 +60409,34 @@ var render = function() {
             [
               _c("span", { staticClass: "user" }, [
                 _vm._v("\n\t\t\t\t" + _vm._s(_vm.displayname) + "\n\t\t\t")
-              ])
-            ]
+              ]),
+              _vm._v(" "),
+              _c(
+                "el-tooltip",
+                {
+                  attrs: {
+                    effect: "dark",
+                    content: "Log out",
+                    placement: "top"
+                  }
+                },
+                [
+                  _c(
+                    "span",
+                    {
+                      staticClass: "logout",
+                      on: {
+                        click: function($event) {
+                          _vm.logout()
+                        }
+                      }
+                    },
+                    [_c("i", { staticClass: "fas fa-sign-out-alt" })]
+                  )
+                ]
+              )
+            ],
+            1
           )
         ],
         1
@@ -60471,8 +60512,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__components_SidebarSearch_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0__components_SidebarSearch_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SidebarNavLink_vue__ = __webpack_require__(207);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__components_SidebarNavLink_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__components_SidebarNavLink_vue__);
-//
-//
 //
 //
 //
@@ -60768,7 +60807,11 @@ var render = function() {
     "el-menu",
     {
       staticClass: "sidebar",
-      attrs: { "default-active": "2", collapse: _vm.sidebarClosed }
+      attrs: {
+        "default-active": "0",
+        router: true,
+        collapse: _vm.sidebarClosed
+      }
     },
     [
       _c(
@@ -60790,13 +60833,13 @@ var render = function() {
           {
             key: index,
             staticClass: "nav-item",
-            attrs: { index: index.toString() }
+            attrs: { index: index.toString(), route: item.url }
           },
           [
             _c("i", { class: item.icon }),
             _vm._v(" "),
             _c("span", { attrs: { slot: "title" }, slot: "title" }, [
-              _vm._v("\n\t\n\t\t\t\t\t" + _vm._s(item.name) + "\n\n\t\t\t")
+              _vm._v("\n\t\t\t\t" + _vm._s(item.name) + "\n\t\t\t")
             ])
           ]
         )
@@ -60827,6 +60870,10 @@ if (false) {
 
 /* harmony default export */ __webpack_exports__["a"] = ({
   items: [{
+    name: 'Dashboard',
+    url: '/dashboard',
+    icon: 'fas fa-table'
+  }, {
     name: 'Contacts',
     url: '/contacts',
     icon: 'fas fa-address-card'
@@ -60920,6 +60967,8 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__containers_CompanyCardShell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__containers_CompanyCardShell_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue__ = __webpack_require__(263);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue__);
 /**
  * Routes for the Vue application.
  * Routes are for the sidebar navigation.
@@ -60933,10 +60982,15 @@ if (false) {
 
 
 
+
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.use(__WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (new __WEBPACK_IMPORTED_MODULE_1_vue_router__["a" /* default */]({
   routes: [{
+    path: '/dashboard',
+    name: 'dashboard',
+    component: __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue___default.a
+  }, {
     path: '/contacts',
     name: 'contacts',
     component: __WEBPACK_IMPORTED_MODULE_2__components_ContactCardBodyList_vue___default.a
@@ -69898,6 +69952,98 @@ if (false) {
 
 /***/ }),
 /* 275 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(276)
+/* template */
+var __vue_template__ = __webpack_require__(277)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/containers/DashboardCardShell.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-26645672", Component.options)
+  } else {
+    hotAPI.reload("data-v-26645672", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports) {
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("el-card", { staticClass: "main-card" }, [
+    _c(
+      "div",
+      { staticClass: "card-header", attrs: { slot: "header" }, slot: "header" },
+      [
+        _c("span", { staticClass: "card-title" }, [
+          _vm._v("\n\t\t\tDashboard\n\t\t")
+        ])
+      ]
+    )
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-26645672", module.exports)
+  }
+}
+
+/***/ }),
+/* 278 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

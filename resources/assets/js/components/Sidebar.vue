@@ -1,5 +1,5 @@
 <template>
-	<el-menu default-active="2" class="sidebar" :collapse="sidebarClosed">
+	<el-menu default-active="0" class="sidebar" :router="true" :collapse="sidebarClosed">
 		<div class="brand">
   			<slot name="logo"></slot>
 			<slot name="company"></slot>
@@ -8,12 +8,10 @@
   			<i class="fas fa-search"></i>
 		</div>
 	  	<SidebarSearch />
-  		<el-menu-item class="nav-item" v-for="(item, index) in navItems" :key="index" :index="index.toString()">
-    		<i :class="item.icon"></i>
-    		<span slot="title">
-	
-					{{item.name}}
-
+  		<el-menu-item class="nav-item" v-for="(item, index) in navItems" :key="index" :index="index.toString()" :route="item.url">
+			<i :class="item.icon"></i>
+			<span slot="title">
+				{{item.name}}
 			</span>
   		</el-menu-item>
 	</el-menu>

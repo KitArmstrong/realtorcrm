@@ -10,11 +10,17 @@ import ContactCardBodyAdd from '../components/ContactCardBodyAdd.vue';
 import GroupCardShell from '../containers/GroupCardShell.vue';
 import CompanyCardShell from '../containers/CompanyCardShell.vue';
 import ContactCardBodyView from '../components/ContactCardBodyView.vue';
+import DashboardCardShell from '../containers/DashboardCardShell.vue';
 
 Vue.use(Router);
 
 export default new Router({
   routes: [
+    {
+      path: '/dashboard',
+      name: 'dashboard',
+      component: DashboardCardShell
+    },
     {
       path: '/contacts',
       name: 'contacts',
