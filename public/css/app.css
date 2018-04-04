@@ -631,6 +631,21 @@ a:focus {
   color: #409EFF;
 }
 
+.view-contact .el-tabs .el-tabs__content {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
+.view-contact .el-tabs .el-tab-pane {
+  -webkit-box-flex: 1;
+      -ms-flex-positive: 1;
+          flex-grow: 1;
+}
+
 .view-contact .request-cards .el-tabs__nav {
   border-radius: 0;
 }

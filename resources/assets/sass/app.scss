@@ -567,6 +567,15 @@ a:focus {
 		.el-tabs__item:hover {
 			color: $header-background-color;
 		}
+
+		.el-tabs__content {
+			display: flex;
+			flex-grow: 1;
+		}
+
+		.el-tab-pane {
+			flex-grow: 1;
+		}
 	}
 
 	.request-cards {
@@ -582,6 +591,8 @@ a:focus {
 	.form-footer {
 		margin-bottom: 0;
 	}
+
+
 }
 
 /* Address dialog */

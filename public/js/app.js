@@ -16518,7 +16518,7 @@ function required(rule, value, source, errors, options, type) {
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(87);
-module.exports = __webpack_require__(278);
+module.exports = __webpack_require__(281);
 
 
 /***/ }),
@@ -60967,7 +60967,7 @@ if (false) {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__containers_CompanyCardShell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5__containers_CompanyCardShell_vue__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue__ = __webpack_require__(263);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6__components_ContactCardBodyView_vue__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue__ = __webpack_require__(275);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue__ = __webpack_require__(278);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_7__containers_DashboardCardShell_vue__);
 /**
  * Routes for the Vue application.
@@ -68061,7 +68061,7 @@ var normalizeComponent = __webpack_require__(0)
 /* script */
 var __vue_script__ = __webpack_require__(264)
 /* template */
-var __vue_template__ = __webpack_require__(274)
+var __vue_template__ = __webpack_require__(277)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -68122,6 +68122,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_10__data_provinces_js__ = __webpack_require__(82);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_google_maps__ = __webpack_require__(47);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_11_google_maps___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_11_google_maps__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue__ = __webpack_require__(274);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue__);
 //
 //
 //
@@ -68251,6 +68253,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+
 
 
 
@@ -68270,11 +68275,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     components: {
         ContactCardShell: __WEBPACK_IMPORTED_MODULE_0__containers_ContactCardShell_vue___default.a,
         BuyerRequestPanel: __WEBPACK_IMPORTED_MODULE_1__components_BuyerRequestPanel_vue___default.a,
-        SellerRequestPanel: __WEBPACK_IMPORTED_MODULE_2__components_SellerRequestPanel_vue___default.a
+        SellerRequestPanel: __WEBPACK_IMPORTED_MODULE_2__components_SellerRequestPanel_vue___default.a,
+        ContactNotesTable: __WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue___default.a
     },
 
     data: function data() {
         return {
+            contactId: '',
             contact: {},
             cardSubTitle: 'View Contact',
             statusOptions: __WEBPACK_IMPORTED_MODULE_4__data_statusOptions_js__["a" /* default */].options,
@@ -68460,9 +68467,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var _this2 = this;
 
-        var contactId = this.$route.params.id;
+        this.contactId = this.$route.params.id;
 
-        axios.get('/contact/' + contactId).then(function (response) {
+        axios.get('/contact/' + this.contactId).then(function (response) {
             _this2.contact = response.data;
 
             if (_this2.contact.buy_request_id) {
@@ -69250,6 +69257,145 @@ if (false) {
 /* 274 */
 /***/ (function(module, exports, __webpack_require__) {
 
+var disposed = false
+var normalizeComponent = __webpack_require__(0)
+/* script */
+var __vue_script__ = __webpack_require__(275)
+/* template */
+var __vue_template__ = __webpack_require__(276)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/ContactNotesTable.vue"
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-0cf0a626", Component.options)
+  } else {
+    hotAPI.reload("data-v-0cf0a626", Component.options)
+  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 275 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+	data: function data() {
+		return {
+			notes: []
+		};
+	},
+
+
+	props: {
+		contactId: {
+			type: Number,
+			required: true
+		}
+	},
+
+	methods: {
+		getContactNotes: function getContactNotes(contactId) {
+			var _this = this;
+
+			axios.get('/notes', {
+				params: {
+					contactid: contactId
+				}
+			}).then(function (response) {
+				_this.notes = response.data;
+			});
+		}
+	},
+
+	created: function created() {
+		this.getContactNotes(this.contactId);
+	}
+});
+
+/***/ }),
+/* 276 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "el-table",
+    {
+      attrs: { data: _vm.notes, height: "100%", "highlight-current-row": false }
+    },
+    [
+      _c("el-table-column", {
+        attrs: { prop: "date", label: "Date", width: "130" }
+      }),
+      _vm._v(" "),
+      _c("el-table-column", { attrs: { prop: "note", label: "Comment" } })
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-0cf0a626", module.exports)
+  }
+}
+
+/***/ }),
+/* 277 */
+/***/ (function(module, exports, __webpack_require__) {
+
 var render = function() {
   var _vm = this
   var _h = _vm.$createElement
@@ -69888,9 +70034,21 @@ var render = function() {
               [
                 _c(
                   "el-tabs",
-                  { staticClass: "d-grow tab", attrs: { type: "border-card" } },
+                  {
+                    staticClass: "d-grow d-flex d-column tab",
+                    attrs: { type: "border-card" }
+                  },
                   [
-                    _c("el-tab-pane", { attrs: { label: "Notes" } }),
+                    _c(
+                      "el-tab-pane",
+                      { attrs: { label: "Notes" } },
+                      [
+                        _c("ContactNotesTable", {
+                          attrs: { contactId: _vm.contactId }
+                        })
+                      ],
+                      1
+                    ),
                     _vm._v(" "),
                     _c("el-tab-pane", { attrs: { label: "Opportunities" } }),
                     _vm._v(" "),
@@ -69951,15 +70109,15 @@ if (false) {
 }
 
 /***/ }),
-/* 275 */
+/* 278 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var disposed = false
 var normalizeComponent = __webpack_require__(0)
 /* script */
-var __vue_script__ = __webpack_require__(276)
+var __vue_script__ = __webpack_require__(279)
 /* template */
-var __vue_template__ = __webpack_require__(277)
+var __vue_template__ = __webpack_require__(280)
 /* template functional */
 var __vue_template_functional__ = false
 /* styles */
@@ -69998,7 +70156,7 @@ module.exports = Component.exports
 
 
 /***/ }),
-/* 276 */
+/* 279 */
 /***/ (function(module, exports) {
 
 //
@@ -70013,7 +70171,7 @@ module.exports = Component.exports
 //
 
 /***/ }),
-/* 277 */
+/* 280 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var render = function() {
@@ -70043,7 +70201,7 @@ if (false) {
 }
 
 /***/ }),
-/* 278 */
+/* 281 */
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

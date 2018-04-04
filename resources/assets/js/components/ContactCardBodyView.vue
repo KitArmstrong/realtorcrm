@@ -110,8 +110,10 @@
 			</el-row>
 			<el-row class="form-footer d-flex d-grow">
 				<el-col class="d-flex d-column">
-					<el-tabs type="border-card" class="d-grow tab">
-						<el-tab-pane label="Notes"></el-tab-pane>
+					<el-tabs type="border-card" class="d-grow d-flex d-column tab">
+						<el-tab-pane label="Notes">
+							<ContactNotesTable :contactId="contactId" />
+						</el-tab-pane>
 						<el-tab-pane label="Opportunities"></el-tab-pane>
 						<el-tab-pane label="History"></el-tab-pane>
 						<el-tab-pane label="Attachements"></el-tab-pane>
@@ -140,6 +142,7 @@
 	import countryOptions from '../data/_countries.js';
 	import provinceOptions from '../data/_provinces.js';
 	import GoogleMapsLoader from 'google-maps';
+	import ContactNotesTable from './ContactNotesTable.vue';
 
 	export default {
     	name: 'contactCardBodyView',
@@ -147,10 +150,12 @@
     		ContactCardShell,
     		BuyerRequestPanel,
     		SellerRequestPanel,
+			ContactNotesTable
     	},
 
     	data() {
     		return {
+				contactId: '',
     			contact: {},
     			cardSubTitle: 'View Contact',
     			statusOptions: statusOptions.options,
@@ -363,9 +368,9 @@
     	},
 
     	created: function() {
-    		let contactId = this.$route.params.id;
+    		this.contactId = this.$route.params.id;
 
-    		axios.get(`/contact/` + contactId)
+    		axios.get(`/contact/` + this.contactId)
             .then(response => {
                 this.contact = response.data;
 

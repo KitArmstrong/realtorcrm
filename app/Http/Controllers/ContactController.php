@@ -145,6 +145,8 @@ class ContactController extends Controller
                 'note_type'     => self::NOTETYPE,
                 'associated_id' => $contactId,
                 'note'          => $formData['notes'],
+                'created_at'     => $now,
+                'updated_at'     => $now,
             ];
 
             DB::table('notes')->insert($noteDetails);

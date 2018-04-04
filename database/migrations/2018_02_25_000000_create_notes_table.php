@@ -18,6 +18,7 @@ class CreateNotesTable extends Migration
             $table->string('note_type', 2);
             $table->integer('associated_id')->unsigned();
             $table->string('note', 1000);
+            $table->timestamps();
         });
     }
 

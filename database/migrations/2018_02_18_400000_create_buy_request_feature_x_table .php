@@ -16,9 +16,7 @@ class CreateBuyRequestFeatureXTable extends Migration
         Schema::create('buy_request_feature', function (Blueprint $table) {
             $table->integer('request_id')->unsigned();
             $table->string('feature', 2);
-
             $table->primary(['request_id', 'feature']);
-
             $table->foreign('request_id')->references('id')->on('buy_requests');
         });
     }

@@ -28,4 +28,5 @@ Route::middleware('auth')->group(function () {
 	Route::post('/contact/add', 'ContactController@addContact');
 	Route::get('/contacts', 'ContactController@getContactListing');
 	Route::get('/contact/{id}', 'ContactController@getContact');
+	Route::get('/notes', 'NotesController@getContactNotes');
 });
