@@ -68355,6 +68355,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
                 return address.trim();
             }
+
+            return 'Address 1 and City required at a minimum';
         },
         geoAddress: function geoAddress() {
             if (this.contact.address1 && this.contact.city) {
@@ -69324,39 +69326,187 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	data: function data() {
-		return {
-			notes: []
-		};
-	},
+    data: function data() {
+        return {
+            notes: [],
+            notesInEdit: [],
+            contactTableLoading: true,
+            loadingElement: null
+        };
+    },
 
 
-	props: {
-		contactId: {
-			type: Number,
-			required: true
-		}
-	},
+    props: {
+        contactId: {
+            type: Number,
+            required: true
+        }
+    },
 
-	methods: {
-		getContactNotes: function getContactNotes(contactId) {
-			var _this = this;
+    methods: {
+        getContactNotes: function getContactNotes(contactId) {
+            var _this = this;
 
-			axios.get('/notes', {
-				params: {
-					contactid: contactId
-				}
-			}).then(function (response) {
-				_this.notes = response.data;
-			});
-		}
-	},
+            axios.get('/notes', {
+                params: {
+                    contactid: contactId
+                }
+            }).then(function (response) {
+                _this.notes = response.data;
+                _this.contactTableLoading = false;
+            });
+        },
+        editNote: function editNote(index, noteId) {
+            var commentRow = document.querySelector('.contact-notes-table .comment-row:nth-child(' + (index + 2) + ')');
+            var noteCell = commentRow.querySelector(' .row-note');
+            var editButtons = commentRow.querySelector('.main-actions');
+            var editConfirmButtons = commentRow.querySelector('.edit-actions');
 
-	created: function created() {
-		this.getContactNotes(this.contactId);
-	}
+            // Get the current value.
+            var noteValue = noteCell.textContent;
+
+            this.notesInEdit[noteId] = noteValue;
+
+            // Create the input for edit.
+            var input = '<input type="text" class="row-note-edit" value="' + noteValue + '" />';
+
+            noteCell.innerHTML = input;
+
+            editButtons.classList.add('d-none');
+            editConfirmButtons.classList.remove('d-none');
+
+            this.$refs.newNote.focus();
+        },
+        cancelEdit: function cancelEdit(index, noteId) {
+            var commentRow = document.querySelector('.contact-notes-table .comment-row:nth-child(' + (index + 2) + ')');
+            var noteCell = commentRow.querySelector(' .row-note');
+            var editInput = noteCell.querySelector('input');
+            var editButtons = commentRow.querySelector('.main-actions');
+            var editConfirmButtons = commentRow.querySelector('.edit-actions');
+
+            noteCell.innerHTML = this.notesInEdit[noteId];
+            delete this.notesInEdit[noteId];
+
+            editConfirmButtons.classList.add('d-none');
+            editButtons.classList.remove('d-none');
+        },
+        saveEdit: function saveEdit(index, noteId) {
+            var commentRow = document.querySelector('.contact-notes-table .comment-row:nth-child(' + (index + 2) + ')');
+            var noteCell = commentRow.querySelector(' .row-note');
+            var editInput = noteCell.querySelector('input');
+            var editButtons = commentRow.querySelector('.main-actions');
+            var editConfirmButtons = commentRow.querySelector('.edit-actions');
+
+            axios.post('/note/edit', {
+                noteid: noteId,
+                newnote: editInput.value
+            }).then(function (response) {
+                noteCell.innerHTML = editInput.value;
+
+                editConfirmButtons.classList.add('d-none');
+                editButtons.classList.remove('d-none');
+            });
+        },
+        startAddNote: function startAddNote() {
+            document.querySelector('.contact-notes-table .blank-row').classList.remove('d-none');
+        },
+        endAddNote: function endAddNote() {
+            var _this2 = this;
+
+            // Start loading animation
+            this.contactTableLoading = true;
+
+            var note = document.querySelector('.contact-notes-table .blank-row .row-note input').value;
+            axios.post('/note/add', {
+                contactid: this.contactId,
+                note: note
+            }).then(function (response) {
+                if (response.data.success) {
+                    _this2.resetAdd();
+                    // On successfull add reload the table data
+                    _this2.getContactNotes(_this2.contactId);
+                }
+            });
+        },
+        resetAdd: function resetAdd() {
+            var newRow = document.querySelector('.contact-notes-table .blank-row');
+
+            newRow.classList.add('d-none');
+            newRow.querySelector('.row-note input').value = '';
+        },
+        deleteNote: function deleteNote(index, noteId) {
+            var _this3 = this;
+
+            axios.post('/note/delete', {
+                noteid: noteId
+            }).then(function (response) {
+                _this3.closePopover(noteId);
+                _this3.notes.splice(index, 1);
+            });
+        },
+        closePopover: function closePopover(noteId) {
+            var button = this.$refs['delete' + noteId.toString()];
+            // Because ref IDs were assinged in v-for, must access as an arrary
+            button[0].click();
+        }
+    },
+
+    watch: {
+        contactTableLoading: function contactTableLoading(_contactTableLoading) {
+            if (_contactTableLoading) {
+                this.loadingElement = this.$loading({
+                    target: '.contact-notes-table',
+                    text: 'Loading',
+                    background: 'rgba(0, 0, 0, 0.7)'
+                });
+            } else {
+                if (this.loadingElement) {
+                    this.loadingElement.close();
+                    this.loadingElement = null;
+                }
+            }
+        }
+    },
+
+    created: function created() {
+        this.contactTableLoading = true;
+        this.getContactNotes(this.contactId);
+    }
 });
 
 /***/ }),
@@ -69367,22 +69517,230 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "el-table",
-    {
-      attrs: { data: _vm.notes, height: "100%", "highlight-current-row": false }
-    },
-    [
-      _c("el-table-column", {
-        attrs: { prop: "date", label: "Date", width: "130" }
-      }),
+  return _c("div", { staticClass: "contact-notes-table-wrapper" }, [
+    _c(
+      "div",
+      { staticClass: "contact-notes-button" },
+      [
+        _c(
+          "el-button",
+          {
+            staticClass: "btn-icon-only btn-normal",
+            attrs: { size: "mini" },
+            on: {
+              click: function($event) {
+                _vm.startAddNote()
+              }
+            }
+          },
+          [_c("i", { staticClass: "fas fa-plus" })]
+        )
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c("table", { staticClass: "contact-notes-table scrollable-table" }, [
+      _c("thead"),
       _vm._v(" "),
-      _c("el-table-column", { attrs: { prop: "note", label: "Comment" } })
-    ],
-    1
-  )
+      _c(
+        "tbody",
+        [
+          _c("tr", { staticClass: "blank-row d-none" }, [
+            _c("td", { staticClass: "note-date" }, [
+              _vm._v("\n                    New\n                ")
+            ]),
+            _vm._v(" "),
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "td",
+              { staticClass: "row-actions" },
+              [
+                _c(
+                  "el-button",
+                  {
+                    staticClass: "btn-icon-only btn-normal",
+                    attrs: { size: "mini" },
+                    on: {
+                      click: function($event) {
+                        _vm.resetAdd()
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-times" })]
+                ),
+                _vm._v(" "),
+                _c(
+                  "el-button",
+                  {
+                    staticClass: "btn-icon-only btn-success",
+                    attrs: { size: "mini" },
+                    on: {
+                      click: function($event) {
+                        _vm.endAddNote()
+                      }
+                    }
+                  },
+                  [_c("i", { staticClass: "fas fa-save" })]
+                )
+              ],
+              1
+            )
+          ]),
+          _vm._v(" "),
+          _vm._l(_vm.notes, function(note, index) {
+            return _c("tr", { key: note.note_id, staticClass: "comment-row" }, [
+              _c("td", { staticClass: "note-date" }, [
+                _vm._v(_vm._s(note.date))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "row-note" }, [
+                _vm._v(_vm._s(note.note))
+              ]),
+              _vm._v(" "),
+              _c("td", { staticClass: "row-actions" }, [
+                _c(
+                  "div",
+                  { staticClass: "main-actions" },
+                  [
+                    _c(
+                      "a",
+                      {
+                        attrs: { href: "#" },
+                        on: {
+                          click: function($event) {
+                            $event.preventDefault()
+                            _vm.editNote(index, note.note_id)
+                          }
+                        }
+                      },
+                      [_vm._v("Edit")]
+                    ),
+                    _vm._v(" | \n                        "),
+                    _c(
+                      "el-popover",
+                      { attrs: { placement: "top", trigger: "click" } },
+                      [
+                        _c("div", { staticClass: "popover-message" }, [
+                          _vm._v(
+                            "\n                                Are you sure you want to delete this comment?\n                            "
+                          )
+                        ]),
+                        _vm._v(" "),
+                        _c(
+                          "div",
+                          {
+                            staticClass: "popover-buttons d-flex d-just-center"
+                          },
+                          [
+                            _c(
+                              "el-button",
+                              {
+                                staticClass: "btn-normal",
+                                attrs: { size: "mini" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.closePopover(note.note_id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Cancel")]
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "el-button",
+                              {
+                                staticClass: "btn-danger",
+                                attrs: { size: "mini" },
+                                on: {
+                                  click: function($event) {
+                                    _vm.deleteNote(index, note.note_id)
+                                  }
+                                }
+                              },
+                              [_vm._v("Delete")]
+                            )
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _c(
+                          "a",
+                          {
+                            ref: "delete" + note.note_id,
+                            refInFor: true,
+                            attrs: { slot: "reference", href: "#" },
+                            slot: "reference"
+                          },
+                          [_vm._v("Delete")]
+                        )
+                      ]
+                    )
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "edit-actions d-none" },
+                  [
+                    _c(
+                      "el-button",
+                      {
+                        staticClass: "btn-icon-only btn-normal",
+                        attrs: { size: "mini" },
+                        on: {
+                          click: function($event) {
+                            _vm.cancelEdit(index, note.note_id)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-times" })]
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "el-button",
+                      {
+                        staticClass: "btn-icon-only btn-success",
+                        attrs: { size: "mini" },
+                        on: {
+                          click: function($event) {
+                            _vm.saveEdit(index, note.note_id)
+                          }
+                        }
+                      },
+                      [_c("i", { staticClass: "fas fa-save" })]
+                    )
+                  ],
+                  1
+                )
+              ])
+            ])
+          })
+        ],
+        2
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("td", { staticClass: "row-note" }, [
+      _c("input", {
+        staticClass: "row-note-edit",
+        attrs: {
+          type: "text",
+          refs: "newNote",
+          value: "",
+          placeholder: "Enter new note here"
+        }
+      })
+    ])
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {

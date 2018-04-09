@@ -53,8 +53,8 @@ class ContactController extends Controller
             'referred_by'    =>  $formData['refby'],
             'contact_method' => $formData['conmethod'],
             'contact_time'   => $formData['contime'],
-            'created_at'     => $now,
-            'updated_at'     => $now,
+            'created_at'     => $now->format('Y-m-d H:i:s'),
+            'updated_at'     => $now->format('Y-m-d H:i:s'),
         ];
 
         $contactId = DB::table('contacts')->insertGetId($contactDetails);
@@ -123,8 +123,8 @@ class ContactController extends Controller
         if($formData['status'] == self::SELLER)
         {
             $requestDetails = [
-                'motive'         =>  $formData['motivation'],
-                'min_price'    => $formData['minprice'],
+                'motive'       =>  $formData['motivation'],
+                'min_price'    =>  $formData['minprice'],
                 'startdate'    =>  $formData['sdate'],
                 'enddate'      =>  $formData['edate'],
             ];
@@ -145,8 +145,8 @@ class ContactController extends Controller
                 'note_type'     => self::NOTETYPE,
                 'associated_id' => $contactId,
                 'note'          => $formData['notes'],
-                'created_at'     => $now,
-                'updated_at'     => $now,
+                'created_at'    => $now->format('Y-m-d H:i:s'),
+                'updated_at'    => $now->format('Y-m-d H:i:s'),
             ];
 
             DB::table('notes')->insert($noteDetails);

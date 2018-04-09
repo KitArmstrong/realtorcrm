@@ -239,7 +239,9 @@
     				};
 
     				return address.trim();
-    			}
+				}
+
+				return 'Address 1 and City required at a minimum';
     		},
     		geoAddress: function() {
     			if(this.contact.address1 && this.contact.city)

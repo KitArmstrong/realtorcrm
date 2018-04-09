@@ -29,4 +29,7 @@ Route::middleware('auth')->group(function () {
 	Route::get('/contacts', 'ContactController@getContactListing');
 	Route::get('/contact/{id}', 'ContactController@getContact');
 	Route::get('/notes', 'NotesController@getContactNotes');
+	Route::post('/note/delete', 'NotesController@deleteNote');
+	Route::post('/note/edit', 'NotesController@editNote');
+	Route::post('/note/add', 'NotesController@addNewNote');
 });
