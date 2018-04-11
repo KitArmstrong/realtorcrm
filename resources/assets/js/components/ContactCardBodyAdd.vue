@@ -507,13 +507,13 @@
          			if (valid) 
          			{
 						axios.post('/contact/add', this.formData)
-						.then((response) => {
+						.then(response => {
 							if(response.data.success)
 							{
 								this.$router.push({name: 'contacts'}, this.openAddSuccessMessage);
 							}
 						})
-						.catch((response) => {
+						.catch(response => {
 		   					if(!response.response.data.success)
 		   					{
 		  						this.handleErrors(response.response.data.errors);

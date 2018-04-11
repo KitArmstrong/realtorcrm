@@ -601,6 +601,7 @@ a:focus {
   border: 1px solid #d2d8da;
   padding: 10px;
   margin-bottom: 5px;
+  margin-right: 5px;
 }
 
 .contact-listing .contact-item .contact-name {
@@ -616,6 +617,12 @@ a:focus {
   font-size: 1.6em;
   margin-left: 5px;
   color: #97999c;
+}
+
+.contact-listing .contact-row {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
 }
 
 .contact-listing .contact-item:hover,
@@ -816,9 +823,14 @@ a:focus {
 }
 
 .scrollable-table tbody tr {
+  border-top: 1px solid #ebeef5;
   background-color: #FFF;
   -webkit-transition: background-color .25s ease;
   transition: background-color .25s ease;
+}
+
+.scrollable-table tbody tr.comment-row:last-child {
+  border-bottom: 1px solid #ebeef5;
 }
 
 .scrollable-table tbody tr:hover {
@@ -826,7 +838,6 @@ a:focus {
 }
 
 .scrollable-table td {
-  border-bottom: 1px solid #ebeef5;
   padding: 12px 0;
   min-width: 0;
   -webkit-box-sizing: border-box;

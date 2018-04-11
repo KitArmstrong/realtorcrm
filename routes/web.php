@@ -28,6 +28,7 @@ Route::middleware('auth')->group(function () {
 	Route::post('/contact/add', 'ContactController@addContact');
 	Route::get('/contacts', 'ContactController@getContactListing');
 	Route::get('/contact/{id}', 'ContactController@getContact');
+	Route::post('/contact/delete', 'ContactController@deleteContact');
 	Route::get('/notes', 'NotesController@getContactNotes');
 	Route::post('/note/delete', 'NotesController@deleteNote');
 	Route::post('/note/edit', 'NotesController@editNote');

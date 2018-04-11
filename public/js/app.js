@@ -64086,6 +64086,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         mailUrl: function mailUrl() {
             return "mailto:" + this.contact.email;
+        },
+        displayPhone: function displayPhone() {
+            if (this.contact.mobile_phone) {
+                return this.contact.mobile_phone;
+            } else if (this.contact.home_phone) {
+                return this.contact.home_phone;
+            } else if (this.contact.alt_phone) {
+                return this.contact.alt_phone;
+            }
         }
     },
 
@@ -64163,7 +64172,7 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "contact-details" }, [
         _c("div", { staticClass: "contact-phone" }, [
-          _vm._v(_vm._s(_vm.formatPhone(_vm.contact.mobile_phone)))
+          _vm._v(_vm._s(_vm.formatPhone(_vm.displayPhone)))
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "contact-email" }, [
@@ -68271,216 +68280,246 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-    name: 'contactCardBodyView',
-    components: {
-        ContactCardShell: __WEBPACK_IMPORTED_MODULE_0__containers_ContactCardShell_vue___default.a,
-        BuyerRequestPanel: __WEBPACK_IMPORTED_MODULE_1__components_BuyerRequestPanel_vue___default.a,
-        SellerRequestPanel: __WEBPACK_IMPORTED_MODULE_2__components_SellerRequestPanel_vue___default.a,
-        ContactNotesTable: __WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue___default.a
-    },
+  name: 'contactCardBodyView',
+  components: {
+    ContactCardShell: __WEBPACK_IMPORTED_MODULE_0__containers_ContactCardShell_vue___default.a,
+    BuyerRequestPanel: __WEBPACK_IMPORTED_MODULE_1__components_BuyerRequestPanel_vue___default.a,
+    SellerRequestPanel: __WEBPACK_IMPORTED_MODULE_2__components_SellerRequestPanel_vue___default.a,
+    ContactNotesTable: __WEBPACK_IMPORTED_MODULE_12__ContactNotesTable_vue___default.a
+  },
 
-    data: function data() {
-        return {
-            contactId: '',
-            contact: {},
-            cardSubTitle: 'View Contact',
-            statusOptions: __WEBPACK_IMPORTED_MODULE_4__data_statusOptions_js__["a" /* default */].options,
-            motivationOptions: {},
-            bestMethodOptions: __WEBPACK_IMPORTED_MODULE_7__data_bestMethodOptions_js__["a" /* default */].options,
-            bestTimeOptions: __WEBPACK_IMPORTED_MODULE_8__data_bestTimeOptions_js__["a" /* default */].options,
-            provinceOptions: __WEBPACK_IMPORTED_MODULE_10__data_provinces_js__["a" /* default */].options,
-            countryOptions: __WEBPACK_IMPORTED_MODULE_9__data_countries_js__["a" /* default */].options,
-            dialogMapVisible: false,
-            mapDialogError: 'There was an error mapping the address. Ensure the contact has as many address details entered as possible.',
-            mapDialogErrorDisplay: false
+  data: function data() {
+    return {
+      contactId: '',
+      contact: {},
+      cardSubTitle: 'View Contact',
+      statusOptions: __WEBPACK_IMPORTED_MODULE_4__data_statusOptions_js__["a" /* default */].options,
+      motivationOptions: {},
+      bestMethodOptions: __WEBPACK_IMPORTED_MODULE_7__data_bestMethodOptions_js__["a" /* default */].options,
+      bestTimeOptions: __WEBPACK_IMPORTED_MODULE_8__data_bestTimeOptions_js__["a" /* default */].options,
+      provinceOptions: __WEBPACK_IMPORTED_MODULE_10__data_provinces_js__["a" /* default */].options,
+      countryOptions: __WEBPACK_IMPORTED_MODULE_9__data_countries_js__["a" /* default */].options,
+      dialogMapVisible: false,
+      mapDialogError: 'There was an error mapping the address. Ensure the contact has as many address details entered as possible.',
+      mapDialogErrorDisplay: false
+    };
+  },
+
+
+  computed: {
+    fullName: function fullName() {
+      return this.contact.firstname + ' ' + this.contact.lastname;
+    },
+    contactMailUrl: function contactMailUrl() {
+      return 'mailto:' + this.contact.email;
+    },
+    contactStatus: function contactStatus() {
+      var statusTitle = '';
+
+      if (this.contact.buy_request_id) {
+        statusTitle += 'Buyer';
+        if (this.contact.buy_motive) {
+          statusTitle += ' - ' + this.getDropdownText(this.contact.buy_motive, this.motivationOptions);
+        }
+      }
+
+      if (this.contact.sell_request_id) {
+        if (statusTitle) {
+          statusTitle += ', ';
+        }
+        statusTitle += 'Seller';
+
+        if (this.contact.sell_motive) {
+          statusTitle += ' - ' + this.getDropdownText(this.contact.sell_motive, this.motivationOptions);
+        }
+      }
+
+      return statusTitle;
+    },
+    formattedAddress: function formattedAddress() {
+      if (this.contact.address1 && this.contact.city) {
+        var address = '';
+
+        if (this.contact.address1) {
+          address += this.contact.address1;
+        }
+        if (this.contact.address2) {
+          address += ', ' + this.contact.address2;
+        }
+
+        address += '\n';
+
+        if (this.contact.city) {
+          address += this.contact.city;
+        }
+        if (this.contact.state_province) {
+          address += ' ' + this.contact.state_province;
+        }
+        if (this.contact.country) {
+          address += ' ' + this.contact.country;
+        }
+        if (this.contact.zip_postal) {
+          address += ' ' + this.contact.zip_postal;
         };
+
+        return address.trim();
+      }
+
+      return 'Address 1 and City required at a minimum';
     },
+    geoAddress: function geoAddress() {
+      if (this.contact.address1 && this.contact.city) {
+        var address = '';
 
-
-    computed: {
-        fullName: function fullName() {
-            return this.contact.firstname + ' ' + this.contact.lastname;
-        },
-        contactMailUrl: function contactMailUrl() {
-            return 'mailto:' + this.contact.email;
-        },
-        contactStatus: function contactStatus() {
-            var statusTitle = '';
-
-            if (this.contact.buy_request_id) {
-                statusTitle += 'Buyer';
-                if (this.contact.buy_motive) {
-                    statusTitle += ' - ' + this.getDropdownText(this.contact.buy_motive, this.motivationOptions);
-                }
-            }
-
-            if (this.contact.sell_request_id) {
-                if (statusTitle) {
-                    statusTitle += ', ';
-                }
-                statusTitle += 'Seller';
-
-                if (this.contact.sell_motive) {
-                    statusTitle += ' - ' + this.getDropdownText(this.contact.sell_motive, this.motivationOptions);
-                }
-            }
-
-            return statusTitle;
-        },
-        formattedAddress: function formattedAddress() {
-            if (this.contact.address1 && this.contact.city) {
-                var address = '';
-
-                if (this.contact.address1) {
-                    address += this.contact.address1;
-                }
-                if (this.contact.address2) {
-                    address += ', ' + this.contact.address2;
-                }
-
-                address += '\n';
-
-                if (this.contact.city) {
-                    address += this.contact.city;
-                }
-                if (this.contact.state_province) {
-                    address += ' ' + this.contact.state_province;
-                }
-                if (this.contact.country) {
-                    address += ' ' + this.contact.country;
-                }
-                if (this.contact.zip_postal) {
-                    address += ' ' + this.contact.zip_postal;
-                };
-
-                return address.trim();
-            }
-
-            return 'Address 1 and City required at a minimum';
-        },
-        geoAddress: function geoAddress() {
-            if (this.contact.address1 && this.contact.city) {
-                var address = '';
-
-                if (this.contact.address1) {
-                    address += this.contact.address1;
-                }
-                if (this.contact.address2) {
-                    address += ', ' + this.contact.address2;
-                }
-                if (this.contact.city) {
-                    address += this.contact.city;
-                }
-                if (this.contact.state_province) {
-                    address += ' ' + this.contact.state_province;
-                }
-                if (this.contact.country) {
-                    address += ' ' + this.contact.country;
-                }
-                if (this.contact.zip_postal) {
-                    address += ' ' + this.contact.zip_postal;
-                };
-
-                return address.trim();
-            }
+        if (this.contact.address1) {
+          address += this.contact.address1;
         }
-    },
-
-    methods: {
-        getDropdownText: function getDropdownText(code, options) {
-            if (!code) {
-                return;
-            }
-
-            for (var option in options) {
-                if (options[option].value === code) {
-                    return options[option].text;
-                }
-            }
-        },
-        copyAddress: function copyAddress() {
-            // Get the address and create a textarea element.
-            var addressText = document.getElementById('formattedAddress').innerHTML;
-            var ta = document.createElement('textarea');
-
-            ta.value = addressText;
-            // Make it read only and hide it off the screen.
-            ta.setAttribute('readonly', '');
-            ta.style.position = 'absolute';
-            ta.style.left = '-9999px';
-            document.body.appendChild(ta);
-
-            // Select the textarea.
-            ta.select();
-            // Copy and then remove element.
-            document.execCommand('copy');
-            document.body.removeChild(ta);
-        },
-        loadMap: function loadMap() {
-            var _this = this;
-
-            // Set up map dialog.
-            __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.LIBRARIES = ['geometry', 'places'];
-            __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
-
-            __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.load(function (google) {
-                var geocoder = new google.maps.Geocoder();
-
-                geocoder.geocode({ 'address': _this.geoAddress }, function (results, status) {
-                    if (status == 'OK') {
-                        var mapOptions = {
-                            zoom: 17,
-                            center: results[0].geometry.location
-                        };
-
-                        var map = new google.maps.Map(document.getElementById('addressMap'), mapOptions);
-
-                        var marker = new google.maps.Marker({
-                            map: map,
-                            position: results[0].geometry.location
-                        });
-                    } else {
-                        _this.mapDialogErrorDisplay = true;
-                    }
-                });
-            });
-        },
-        openMapDialog: function openMapDialog() {
-            this.dialogErrorMsg = '';
-            this.loadMap();
-            this.dialogMapVisible = true;
-        },
-        formatPhone: function formatPhone(phone) {
-            if (phone) {
-                if (phone.length === 10) {
-                    return phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
-                } else if (phone.length === 11) {
-                    return phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, "$1-$2-$3-$4");
-                } else {
-                    return phone;
-                }
-            }
-        },
-        previousPage: function previousPage() {
-            this.$router.go(-1);
+        if (this.contact.address2) {
+          address += ', ' + this.contact.address2;
         }
-    },
+        if (this.contact.city) {
+          address += this.contact.city;
+        }
+        if (this.contact.state_province) {
+          address += ' ' + this.contact.state_province;
+        }
+        if (this.contact.country) {
+          address += ' ' + this.contact.country;
+        }
+        if (this.contact.zip_postal) {
+          address += ' ' + this.contact.zip_postal;
+        };
 
-    created: function created() {
-        var _this2 = this;
-
-        this.contactId = this.$route.params.id;
-
-        axios.get('/contact/' + this.contactId).then(function (response) {
-            _this2.contact = response.data;
-
-            if (_this2.contact.buy_request_id) {
-                _this2.motivationOptions = __WEBPACK_IMPORTED_MODULE_5__data_buyerMotivationOptions_js__["a" /* default */].options;
-            } else if (_this2.contact.sell_request_id) {
-                _this2.motivationOptions = __WEBPACK_IMPORTED_MODULE_6__data_sellerMotivationOptions_js__["a" /* default */].options;
-            }
-        });
+        return address.trim();
+      }
     }
+  },
+
+  methods: {
+    getDropdownText: function getDropdownText(code, options) {
+      if (!code) {
+        return;
+      }
+
+      for (var option in options) {
+        if (options[option].value === code) {
+          return options[option].text;
+        }
+      }
+    },
+    copyAddress: function copyAddress() {
+      // Get the address and create a textarea element.
+      var addressText = document.getElementById('formattedAddress').innerHTML;
+      var ta = document.createElement('textarea');
+
+      ta.value = addressText;
+      // Make it read only and hide it off the screen.
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'absolute';
+      ta.style.left = '-9999px';
+      document.body.appendChild(ta);
+
+      // Select the textarea.
+      ta.select();
+      // Copy and then remove element.
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    },
+    loadMap: function loadMap() {
+      var _this = this;
+
+      // Set up map dialog.
+      __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.LIBRARIES = ['geometry', 'places'];
+      __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.KEY = 'AIzaSyB1ktxO-hwgQeqrGN8Yiaey-tAf1Goin9Y';
+
+      __WEBPACK_IMPORTED_MODULE_11_google_maps___default.a.load(function (google) {
+        var geocoder = new google.maps.Geocoder();
+
+        geocoder.geocode({ 'address': _this.geoAddress }, function (results, status) {
+          if (status == 'OK') {
+            var mapOptions = {
+              zoom: 17,
+              center: results[0].geometry.location
+            };
+
+            var map = new google.maps.Map(document.getElementById('addressMap'), mapOptions);
+
+            var marker = new google.maps.Marker({
+              map: map,
+              position: results[0].geometry.location
+            });
+          } else {
+            _this.mapDialogErrorDisplay = true;
+          }
+        });
+      });
+    },
+    openMapDialog: function openMapDialog() {
+      this.dialogErrorMsg = '';
+      this.loadMap();
+      this.dialogMapVisible = true;
+    },
+    formatPhone: function formatPhone(phone) {
+      if (phone) {
+        if (phone.length === 10) {
+          return phone.replace(/(\d{3})(\d{3})(\d{4})/, "$1-$2-$3");
+        } else if (phone.length === 11) {
+          return phone.replace(/(\d{1})(\d{3})(\d{3})(\d{4})/, "$1-$2-$3-$4");
+        } else {
+          return phone;
+        }
+      }
+    },
+    previousPage: function previousPage() {
+      this.$router.go(-1);
+    },
+    contactMenuOption: function contactMenuOption(selection) {
+      switch (selection) {
+        case 'edit':
+
+          break;
+
+        case 'delete':
+          this.deleteContact(this.contactId);
+          break;
+      }
+    },
+    deleteContact: function deleteContact(contactId) {
+      var _this2 = this;
+
+      axios.post('/contact/delete', {
+        contactid: contactId
+      }).then(function (response) {
+        if (response.data.success) {
+          _this2.$router.push({ name: 'contacts' }, _this2.openDeleteSuccessMessage);
+        }
+      });
+    },
+    openDeleteSuccessMessage: function openDeleteSuccessMessage() {
+      this.$message({
+        message: 'Contact has been succesfully deleted.',
+        type: 'success',
+        duration: 3000,
+        customClass: 'success-notification'
+      });
+    }
+  },
+
+  created: function created() {
+    var _this3 = this;
+
+    this.contactId = this.$route.params.id;
+
+    axios.get('/contact/' + this.contactId).then(function (response) {
+      _this3.contact = response.data;
+
+      if (_this3.contact.buy_request_id) {
+        _this3.motivationOptions = __WEBPACK_IMPORTED_MODULE_5__data_buyerMotivationOptions_js__["a" /* default */].options;
+      } else if (_this3.contact.sell_request_id) {
+        _this3.motivationOptions = __WEBPACK_IMPORTED_MODULE_6__data_sellerMotivationOptions_js__["a" /* default */].options;
+      }
+    });
+  }
 });
 
 /***/ }),
@@ -69359,6 +69398,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     data: function data() {
@@ -69409,8 +69452,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             editButtons.classList.add('d-none');
             editConfirmButtons.classList.remove('d-none');
-
-            this.$refs.newNote.focus();
         },
         cancelEdit: function cancelEdit(index, noteId) {
             var commentRow = document.querySelector('.contact-notes-table .comment-row:nth-child(' + (index + 2) + ')');
@@ -69444,6 +69485,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         startAddNote: function startAddNote() {
             document.querySelector('.contact-notes-table .blank-row').classList.remove('d-none');
+            this.$refs.newNote.focus();
         },
         endAddNote: function endAddNote() {
             var _this2 = this;
@@ -69547,10 +69589,20 @@ var render = function() {
         [
           _c("tr", { staticClass: "blank-row d-none" }, [
             _c("td", { staticClass: "note-date" }, [
-              _vm._v("\n                    New\n                ")
+              _vm._v("\n                        New\n                    ")
             ]),
             _vm._v(" "),
-            _vm._m(0),
+            _c("td", { staticClass: "row-note" }, [
+              _c("input", {
+                ref: "newNote",
+                staticClass: "row-note-edit",
+                attrs: {
+                  type: "text",
+                  value: "",
+                  placeholder: "Enter new note here"
+                }
+              })
+            ]),
             _vm._v(" "),
             _c(
               "td",
@@ -69616,14 +69668,14 @@ var render = function() {
                       },
                       [_vm._v("Edit")]
                     ),
-                    _vm._v(" | \n                        "),
+                    _vm._v(" | \n                            "),
                     _c(
                       "el-popover",
                       { attrs: { placement: "top", trigger: "click" } },
                       [
                         _c("div", { staticClass: "popover-message" }, [
                           _vm._v(
-                            "\n                                Are you sure you want to delete this comment?\n                            "
+                            "\n                                    Are you sure you want to delete this comment?\n                                "
                           )
                         ]),
                         _vm._v(" "),
@@ -69670,6 +69722,11 @@ var render = function() {
                             ref: "delete" + note.note_id,
                             refInFor: true,
                             attrs: { slot: "reference", href: "#" },
+                            on: {
+                              click: function($event) {
+                                $event.preventDefault()
+                              }
+                            },
                             slot: "reference"
                           },
                           [_vm._v("Delete")]
@@ -69685,31 +69742,57 @@ var render = function() {
                   { staticClass: "edit-actions d-none" },
                   [
                     _c(
-                      "el-button",
+                      "el-tooltip",
                       {
-                        staticClass: "btn-icon-only btn-normal",
-                        attrs: { size: "mini" },
-                        on: {
-                          click: function($event) {
-                            _vm.cancelEdit(index, note.note_id)
-                          }
+                        attrs: {
+                          effect: "dark",
+                          content: "Cancel",
+                          placement: "top"
                         }
                       },
-                      [_c("i", { staticClass: "fas fa-times" })]
+                      [
+                        _c(
+                          "el-button",
+                          {
+                            staticClass: "btn-icon-only btn-normal",
+                            attrs: { size: "mini" },
+                            on: {
+                              click: function($event) {
+                                _vm.cancelEdit(index, note.note_id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-times" })]
+                        )
+                      ],
+                      1
                     ),
                     _vm._v(" "),
                     _c(
-                      "el-button",
+                      "el-tooltip",
                       {
-                        staticClass: "btn-icon-only btn-success",
-                        attrs: { size: "mini" },
-                        on: {
-                          click: function($event) {
-                            _vm.saveEdit(index, note.note_id)
-                          }
+                        attrs: {
+                          effect: "dark",
+                          content: "Save",
+                          placement: "top"
                         }
                       },
-                      [_c("i", { staticClass: "fas fa-save" })]
+                      [
+                        _c(
+                          "el-button",
+                          {
+                            staticClass: "btn-icon-only btn-success",
+                            attrs: { size: "mini" },
+                            on: {
+                              click: function($event) {
+                                _vm.saveEdit(index, note.note_id)
+                              }
+                            }
+                          },
+                          [_c("i", { staticClass: "fas fa-save" })]
+                        )
+                      ],
+                      1
                     )
                   ],
                   1
@@ -69723,24 +69806,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("td", { staticClass: "row-note" }, [
-      _c("input", {
-        staticClass: "row-note-edit",
-        attrs: {
-          type: "text",
-          refs: "newNote",
-          value: "",
-          placeholder: "Enter new note here"
-        }
-      })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -69805,7 +69871,8 @@ var render = function() {
                       "el-dropdown",
                       {
                         staticClass: "header-btn",
-                        attrs: { trigger: "click" }
+                        attrs: { trigger: "click" },
+                        on: { command: _vm.contactMenuOption }
                       },
                       [
                         _c("el-button", { staticClass: "dropdown-btn" }, [
@@ -69818,9 +69885,17 @@ var render = function() {
                           "el-dropdown-menu",
                           { attrs: { slot: "dropdown" }, slot: "dropdown" },
                           [
-                            _c("el-dropdown-item", [_vm._v("Edit Contact")]),
+                            _c(
+                              "el-dropdown-item",
+                              { attrs: { command: "edit" } },
+                              [_vm._v("Edit Contact")]
+                            ),
                             _vm._v(" "),
-                            _c("el-dropdown-item", [_vm._v("Delete Contact")])
+                            _c(
+                              "el-dropdown-item",
+                              { attrs: { command: "delete" } },
+                              [_vm._v("Delete Contact")]
+                            )
                           ],
                           1
                         )

@@ -13,7 +13,7 @@
                 </span>
             </el-row>
             <el-row type="flex" class="list-container">
-                <div class="no-contacts d-flex d-just-center d-align-center" v-if="totalContacts == 0">
+                <div class="no-contacts d-flex d-just-center d-align-center" v-if="totalContacts === 0">
                     <span>You have no contacts. Click "New" to begin entering one.</span>
                 </div>
                 <ContactListingRow v-else v-for="(contactRowSet, index) in contacts" :key="index" :contactRowSet="contactRowSet"></ContactListingRow>

@@ -1,5 +1,5 @@
 <template>
-    <el-row class="contact-row" >
+    <el-row class="contact-row">
         <ContactItem v-for="(contact, index) in contactRowSet" :key="contact.contact_id" :contact="contact"></ContactItem>
     </el-row>
 </template>

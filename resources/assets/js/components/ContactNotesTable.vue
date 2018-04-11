@@ -12,7 +12,7 @@
                         New
                     </td>
                     <td class="row-note">
-                        <input type="text" class="row-note-edit" refs="newNote" value="" placeholder="Enter new note here" />
+                        <input type="text" class="row-note-edit" ref="newNote" value="" placeholder="Enter new note here" />
                     </td>
                     <td class="row-actions">
                         <el-button class="btn-icon-only btn-normal" size="mini" @click="resetAdd()"><i class="fas fa-times"></i></el-button>
@@ -35,12 +35,16 @@
                                     <el-button class="btn-normal" size="mini" @click="closePopover(note.note_id)">Cancel</el-button>
                                     <el-button class="btn-danger" size="mini" @click="deleteNote(index, note.note_id)">Delete</el-button>
                                 </div>
-                                <a href="#" slot="reference" :ref="'delete' + note.note_id">Delete</a>
+                                <a href="#" slot="reference" :ref="'delete' + note.note_id" @click.prevent>Delete</a>
                             </el-popover>
                         </div>
                         <div class="edit-actions d-none">
-                            <el-button class="btn-icon-only btn-normal" size="mini" @click="cancelEdit(index, note.note_id)"><i class="fas fa-times"></i></el-button>
-                            <el-button class="btn-icon-only btn-success" size="mini" @click="saveEdit(index, note.note_id)"><i class="fas fa-save"></i></el-button>
+                            <el-tooltip effect="dark" content="Cancel" placement="top">
+                                <el-button class="btn-icon-only btn-normal" size="mini" @click="cancelEdit(index, note.note_id)"><i class="fas fa-times"></i></el-button>
+							</el-tooltip>
+                            <el-tooltip effect="dark" content="Save" placement="top">
+                                <el-button class="btn-icon-only btn-success" size="mini" @click="saveEdit(index, note.note_id)"><i class="fas fa-save"></i></el-button>
+                            </el-tooltip>
                         </div>
                     </td>
                 </tr>
@@ -97,8 +101,6 @@
 
                 editButtons.classList.add('d-none');
                 editConfirmButtons.classList.remove('d-none');
-
-                this.$refs.newNote.focus();
             },
             cancelEdit: function(index, noteId) {
                 let commentRow = document.querySelector('.contact-notes-table .comment-row:nth-child(' + (index + 2) + ')');
@@ -133,6 +135,7 @@
             },
             startAddNote: function() {
                 document.querySelector('.contact-notes-table .blank-row').classList.remove('d-none'); 
+                this.$refs.newNote.focus();
             },
             endAddNote: function() {
                 // Start loading animation

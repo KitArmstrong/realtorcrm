@@ -6,11 +6,11 @@
 					<h3 class="contact-name">{{fullName}} <span class="contact-status">{{contactStatus}}</span></h3>
                     <div class="header-buttons">
                         <el-button class="view-back-button header-btn" @click="previousPage"><i class="fas fa-undo-alt"></i> Back</el-button>
-                        <el-dropdown class="header-btn" trigger="click">
+                        <el-dropdown class="header-btn" trigger="click" @command="contactMenuOption">
                             <el-button class="dropdown-btn"><i class="fas fa-bars"></i>&nbsp;<i class="fas fa-caret-down"></i></el-button>
                             <el-dropdown-menu slot="dropdown">
-                                <el-dropdown-item>Edit Contact</el-dropdown-item>
-                                <el-dropdown-item>Delete Contact</el-dropdown-item>
+                                <el-dropdown-item command="edit">Edit Contact</el-dropdown-item>
+                                <el-dropdown-item command="delete">Delete Contact</el-dropdown-item>
                             </el-dropdown-menu>
                         </el-dropdown>
                     </div>
@@ -367,6 +367,37 @@
             previousPage: function() {
                 this.$router.go(-1);
             },
+			contactMenuOption: function(selection) {
+				switch(selection)
+				{
+					case 'edit':
+
+						break;
+					
+					case 'delete':
+						this.deleteContact(this.contactId);
+						break;
+				}
+			},
+			deleteContact: function(contactId) {
+				axios.post('/contact/delete', {
+					contactid: contactId
+				})
+				.then(response => {
+					if(response.data.success)
+					{
+						this.$router.push({name: 'contacts'}, this.openDeleteSuccessMessage);
+					}
+				});
+			},
+			openDeleteSuccessMessage: function() {
+   				this.$message({
+		        	message: 'Contact has been succesfully deleted.',
+		        	type: 'success',
+		        	duration: 3000,
+		        	customClass: 'success-notification',
+		        });
+    		},
     	},
 
     	created: function() {

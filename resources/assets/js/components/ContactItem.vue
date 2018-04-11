@@ -8,7 +8,7 @@
                 <span class="seller-icon"><i class="fas fa-dollar-sign"></i></span>
             </el-tooltip> 
         <div class="contact-details">
-            <div class="contact-phone">{{formatPhone(contact.mobile_phone)}}</div>
+            <div class="contact-phone">{{formatPhone(displayPhone)}}</div>
             <div class="contact-email"><a :href="mailUrl">{{contact.email}}</a></div>
         </div>
     </el-col>
@@ -36,6 +36,20 @@
             },
             mailUrl: function() {
                 return "mailto:" + this.contact.email;
+            },
+            displayPhone: function() {
+                if(this.contact.mobile_phone)
+                {
+                    return this.contact.mobile_phone;
+                }
+                else if(this.contact.home_phone)
+                {
+                    return this.contact.home_phone;
+                }
+                else if(this.contact.alt_phone)
+                {
+                    return this.contact.alt_phone;
+                }
             }
         },
 
@@ -46,7 +60,7 @@
             formatPhone: function(phone) {
                 if(!phone)
                 {
-                return '';
+                    return '';
                 }
                 
                 if(phone.length === 10)

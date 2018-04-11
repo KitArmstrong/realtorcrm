@@ -535,6 +535,7 @@ a:focus {
 		border: 1px solid $card-border-color;
 		padding: 10px;
 		margin-bottom: 5px;
+		margin-right: 5px;
 
 		.contact-name {
 			margin: 0 0 5px 0;
@@ -550,6 +551,10 @@ a:focus {
 			margin-left: 5px;
 			color: #97999c;
 		}
+	}
+
+	.contact-row {
+		display: flex;
 	}
 
 	.contact-item:hover,
@@ -745,16 +750,20 @@ a:focus {
 	}
 
 	tbody tr {
+		border-top: 1px solid #ebeef5;
 		background-color: #FFF;
 		transition: background-color .25s ease;
 	}
+
+	tbody tr.comment-row:last-child {
+		border-bottom: 1px solid #ebeef5;
+	} 
 
 	tbody tr:hover {
 		background-color:#e9f1f9;
 	}
 
 	td {
-		border-bottom: 1px solid #ebeef5;
 		padding: 12px 0;
 		min-width: 0;
 		box-sizing: border-box;

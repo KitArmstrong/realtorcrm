@@ -14,6 +14,8 @@ class ContactController extends Controller
     const BUYER = 'B';
     const SELLER = 'S';
     const BOTHREQUEST = 'T';
+    const STATUSACTIVE = 'A';
+    const STATUSDELETE = 'D';
 
     /**
      * Adds a new contact and all details.
@@ -41,18 +43,19 @@ class ContactController extends Controller
 
         // Insert contact details.
         $contactDetails = [
-            'user_id'        =>  Auth::id(),
-            'firstname'      =>  $formData['fname'],
-            'lastname'       =>  $formData['lname'],
-            'mobile_phone'   =>  $formData['mphone'],
-            'home_phone'     =>  $formData['hphone'],
-            'alt_phone'      =>  $formData['aphone'],
-            'email'          =>  $formData['email'],
-            'company'        =>  $formData['company'],
-            'title'          =>  $formData['title'],
-            'referred_by'    =>  $formData['refby'],
+            'user_id'        => Auth::id(),
+            'firstname'      => $formData['fname'],
+            'lastname'       => $formData['lname'],
+            'mobile_phone'   => $formData['mphone'],
+            'home_phone'     => $formData['hphone'],
+            'alt_phone'      => $formData['aphone'],
+            'email'          => $formData['email'],
+            'company'        => $formData['company'],
+            'title'          => $formData['title'],
+            'referred_by'    => $formData['refby'],
             'contact_method' => $formData['conmethod'],
             'contact_time'   => $formData['contime'],
+            'status'         => self::STATUSACTIVE,
             'created_at'     => $now->format('Y-m-d H:i:s'),
             'updated_at'     => $now->format('Y-m-d H:i:s'),
         ];
@@ -235,14 +238,20 @@ class ContactController extends Controller
                         ->leftJoin('buy_requests', 'contact_buy_request.buy_request_id', '=', 'buy_requests.id')
                         ->leftJoin('contact_seller_request', 'contacts.id', '=', 'contact_seller_request.contacts_id')
                         ->leftJoin('seller_requests', 'contact_seller_request.seller_request_id', '=', 'seller_requests.id')
-                        ->where('user_id', Auth::id())
+                        ->where([
+                            ['user_id', Auth::id()],
+                            ['status', self::STATUSACTIVE]
+                        ])
                         ->limit(self::PAGESIZE)
                         ->offset($offset)
                         ->orderBy('lastname')->get();
         $contacts = $contacts->toArray();
 
         $totalCount = DB::table('contacts')
-                        ->where('user_id', Auth::id())
+                        ->where([
+                            ['user_id', Auth::id()],
+                            ['status', self::STATUSACTIVE]
+                        ])
                         ->count();
 
         $response = [
@@ -278,7 +287,10 @@ class ContactController extends Controller
                         ->leftJoin('contact_seller_request', 'contacts.id', '=', 'contact_seller_request.contacts_id')
                         ->leftJoin('seller_requests', 'contact_seller_request.seller_request_id', '=', 'seller_requests.id')
                         ->select($columns)
-                        ->where('contacts.id', $contactId)->first();
+                        ->where([
+                            ['contacts.id', $contactId],
+                            ['status', self::STATUSACTIVE]
+                        ])->first();
 
         $features = DB::table('buy_request_feature')
                             ->join('contact_buy_request', 'buy_request_feature.request_id', '=', 'contact_buy_request.buy_request_id')
@@ -289,5 +301,31 @@ class ContactController extends Controller
         $contact->features = $features;
 
         return response()->json($contact);
+    }
+
+    /**
+     * Deletes a note (soft delete)
+     *
+     * @param Request $request
+     * @return JSON response
+     */
+    public function deleteContact(Request $request)
+    {
+        $contactId = $request->input('contactid');
+        $now = new \Datetime();
+
+        DB::table('contacts')
+            ->where([
+                ['id', $contactId],
+                ['user_id', Auth::id()]])
+            ->update([
+                'status' => self::STATUSDELETE,
+                'updated_at' => $now->format('Y-m-d H:i:s')]);
+        
+        return response()->json(array(
+            'success' => true,
+            'errors' => ''
+            )
+        );
     }
 }
