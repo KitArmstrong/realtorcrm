@@ -2,7 +2,7 @@
 	<ContactCardShell :cardSubTitle="cardSubTitle">
 		<div slot="card-body" class=" contact-listing">
 			<el-row type="flex" class="card-body-controls">
-                <span class="filters">These are the controls</span>
+                <ContactListFilters />
                 <span class="paging-links">
                     <el-pagination
                     layout="prev, pager, next"
@@ -25,6 +25,7 @@
 <script>
 	import ContactCardShell from '../containers/ContactCardShell.vue';
     import ContactListingRow from './ContactListingRow.vue';
+    import ContactListFilters from './ContactListFilters.vue';
 
 	export default {
     	name: 'contactCardBodylist',
@@ -32,6 +33,7 @@
     	components: {
     		ContactCardShell,
             ContactListingRow,
+            ContactListFilters
     	},
 
     	data() {

@@ -615,12 +615,16 @@
             					break;
             			}
             		}
-            	}
-            },
+				}
+			},
     	},
 
     	created: function() {
     		this.initAutocomplete();
-    	}
+		},
+		
+		beforeDestroy: function() {
+			GoogleMapsLoader.release();
+		}
     }
 </script>

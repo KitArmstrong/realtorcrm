@@ -375,9 +375,24 @@
 						break;
 					
 					case 'delete':
-						this.deleteContact(this.contactId);
+						this.openDeleteConfirm();
 						break;
 				}
+			},
+			openDeleteConfirm: function() {
+				this.$confirm('Are you sure you want to delete this contact?', 'Warning', {
+					customClass: 'message-dialog',
+					confirmButtonText: 'Delete',
+					cancelButtonText: 'Cancel',
+					cancelButtonClass: 'btn-normal',
+					confirmButtonClass: 'btn-danger',
+					type: 'warning'
+				})
+				.then(() => {
+					this.deleteContact(this.contactId);
+				}).catch(() => {
+					// Cancel action
+				});
 			},
 			deleteContact: function(contactId) {
 				axios.post('/contact/delete', {
