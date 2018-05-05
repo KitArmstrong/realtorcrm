@@ -81,10 +81,6 @@ body,
 	cursor: default;
 }
 
-.el-select {
-	width: 100%;
-}
-
 .el-popover {
 	text-align: left;
 	white-space: pre-line;
@@ -489,6 +485,10 @@ a:focus {
 		cursor: pointer;
 	}
 
+	.el-select {
+		width: 100%;
+	}	
+
 	.form-date-picker {
 		width: 100%;
 	}
@@ -518,13 +518,29 @@ a:focus {
 /* Contact listing Form */
 .contact-listing {
 
+	.filter-row {
+		width: 100%;
+	}
+
+	.filter-option {
+		width: 25%;
+
+		label {
+			width: 100%;
+			display: block;
+			margin-bottom: 10px;
+		}
+	}
+
 	.list-container {
 		flex-direction: column;
 	}
 
 	.card-body-controls {
+		padding-bottom: 10px;
 		margin-bottom: 20px;
 		justify-content: space-between;
+		border-bottom: 1px solid #ebeef5;
 	}
 
 	.el-pager li {
@@ -534,7 +550,7 @@ a:focus {
 	.contact-item {
 		border: 1px solid $card-border-color;
 		padding: 10px;
-		margin-bottom: 5px;
+		margin-bottom: 15px;
 		margin-right: 5px;
 
 		.contact-name {

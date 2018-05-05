@@ -63744,19 +63744,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return {
             cardSubTitle: '',
             contacts: [],
-            totalContacts: 0
+            totalContacts: 0,
+            currentPage: 1,
+            filters: {
+                contactType: ''
+            }
         };
     },
 
 
     mounted: function mounted() {
-        var _this = this;
-
-        axios.get('/contacts').then(function (response) {
-            // Array of contacts is returned. Chunk the array into arrays of four.
-            _this.contacts = _this.chunkArray(response.data.contacts, 4);
-            _this.totalContacts = response.data.total;
-        });
+        this.getContacts(1);
     },
 
     methods: {
@@ -63773,17 +63771,30 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
 
         newPage: function newPage(_newPage) {
-            var _this2 = this;
+            this.currentPage = _newPage;
+            this.getContacts(_newPage);
+        },
+
+        getContacts: function getContacts(page) {
+            var _this = this;
+
+            page = page || 1;
 
             axios.get('/contacts', {
                 params: {
-                    page: _newPage
+                    page: page,
+                    filters: this.filters
                 }
             }).then(function (response) {
                 // Array of contacts is returned. Chunk the array into arrays of four.
-                _this2.contacts = _this2.chunkArray(response.data.contacts, 4);
-                _this2.totalContacts = response.data.total;
+                _this.contacts = _this.chunkArray(response.data.contacts, 4);
+                _this.totalContacts = response.data.total;
             });
+        },
+
+        updateFilters: function updateFilters() {
+            alert("TEST");
+            this.getContacts(this.currentPage);
         }
     }
 });
@@ -64314,7 +64325,7 @@ exports = module.exports = __webpack_require__(76)(false);
 
 
 // module
-exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
+exports.push([module.i, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n", ""]);
 
 // exports
 
@@ -64334,23 +64345,36 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	name: 'contactListFilters',
+    name: 'contactListFilters',
 
-	components: {
-		ContactTypeDropDown: __WEBPACK_IMPORTED_MODULE_0__ContactTypeDropDown_vue___default.a
-	},
+    components: {
+        ContactTypeDropDown: __WEBPACK_IMPORTED_MODULE_0__ContactTypeDropDown_vue___default.a
+    },
 
-	data: function data() {
-		return {
-			filters: {
-				contactType: ''
-			}
-		};
-	}
+    data: function data() {
+        return {
+            filters: {
+                contactType: 'A'
+            }
+        };
+    },
+
+
+    watch: {
+        filters: {
+            handler: function handler(filters) {
+                this.$emit('filtersChange', this.filters);
+            },
+
+            deep: true
+        }
+    }
 });
 
 /***/ }),
@@ -64438,6 +64462,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         updateContactType: function updateContactType() {
             this.$emit('input', this.contactType);
         }
+    },
+    watch: {
+        value: function value(_value) {
+            this.contactType = this.value;
+        }
+    },
+    created: function created() {
+        this.contactType = this.value;
     }
 });
 
@@ -64518,26 +64550,28 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { staticClass: "filter-row" },
-    [
-      _c("label", { attrs: { for: "contactTypeFilter" } }, [
-        _vm._v("Contact Type ")
-      ]),
-      _vm._v(" "),
-      _c("contactTypeDropDown", {
-        model: {
-          value: _vm.filters.contactType,
-          callback: function($$v) {
-            _vm.$set(_vm.filters, "contactType", $$v)
-          },
-          expression: "filters.contactType"
-        }
-      })
-    ],
-    1
-  )
+  return _c("div", { staticClass: "filter-row" }, [
+    _c(
+      "div",
+      { staticClass: "filter-option" },
+      [
+        _c("label", { attrs: { for: "contactTypeFilter" } }, [
+          _vm._v("Contact Type ")
+        ]),
+        _vm._v(" "),
+        _c("contactTypeDropDown", {
+          model: {
+            value: _vm.filters.contactType,
+            callback: function($$v) {
+              _vm.$set(_vm.filters, "contactType", $$v)
+            },
+            expression: "filters.contactType"
+          }
+        })
+      ],
+      1
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -64570,7 +64604,9 @@ var render = function() {
           "el-row",
           { staticClass: "card-body-controls", attrs: { type: "flex" } },
           [
-            _c("ContactListFilters"),
+            _c("ContactListFilters", {
+              on: { filtersChange: _vm.updateFilters }
+            }),
             _vm._v(" "),
             _c(
               "span",
@@ -68154,7 +68190,7 @@ var render = function() {
                             on: {
                               click: function($event) {
                                 $event.preventDefault()
-                                _vm.submitContactForm()
+                                return _vm.submitContactForm($event)
                               }
                             }
                           },

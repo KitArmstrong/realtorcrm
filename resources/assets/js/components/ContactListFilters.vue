@@ -1,8 +1,9 @@
 <template>
     <div class="filter-row">
-        
-        <label for="contactTypeFilter">Contact Type </label>
-        <contactTypeDropDown v-model="filters.contactType" />
+        <div class="filter-option">
+             <label for="contactTypeFilter">Contact Type </label>
+            <contactTypeDropDown v-model="filters.contactType" />
+        </div>
     </div>
 </template>
 
@@ -22,7 +23,16 @@
                     contactType: 'A'
                 }
     		}
-    	},
+        },
+
+        watch: {
+            filters: {
+                handler(filters){
+                    this.$emit('filtersChange', this.filters);
+                },
+                deep: true
+            }
+        },
     }
 </script>
 

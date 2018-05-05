@@ -28,6 +28,14 @@
             updateContactType() {
                 this.$emit('input', this.contactType);  
             }
+        },
+        watch: {
+            value: function(value) {
+                this.contactType = this.value;
+            }
+        },
+        created: function() {
+            this.contactType = this.value;
         }
     }
 </script>

@@ -323,7 +323,7 @@
 					<el-col :xs="24" :sm="24" :md="8" class="d-flex d-just-end">
 						<el-row type="flex" :gutter="10" class="d-align-end">
 							<el-button @click="previousPage">Cancel</el-button>
-							<el-button native-type="button" form="contact-form" @click.prevent="submitContactForm()" class="main-card-btn">Save</el-button>
+							<el-button native-type="button" form="contact-form" @click.prevent="submitContactForm" class="main-card-btn">Save</el-button>
 						</el-row>
 					</el-col>
 				</el-row>

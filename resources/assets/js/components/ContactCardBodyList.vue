@@ -2,7 +2,7 @@
 	<ContactCardShell :cardSubTitle="cardSubTitle">
 		<div slot="card-body" class=" contact-listing">
 			<el-row type="flex" class="card-body-controls">
-                <ContactListFilters />
+                <ContactListFilters v-on:filtersChange="updateFilters"/>
                 <span class="paging-links">
                     <el-pagination
                     layout="prev, pager, next"
@@ -41,16 +41,15 @@
     			cardSubTitle: '',
                 contacts: [],
                 totalContacts: 0,
+                currentPage: 1,
+                filters: {
+                    contactType: ''
+                }
     		}
     	},
 
         mounted: function() {
-            axios.get(`/contacts`)
-            .then(response => {
-                // Array of contacts is returned. Chunk the array into arrays of four.
-                this.contacts = this.chunkArray(response.data.contacts, 4);
-                this.totalContacts = response.data.total;
-            });
+            this.getContacts(1);
         },
 
         methods: {
@@ -67,9 +66,17 @@
             },
 
             newPage: function(newPage) {
+                this.currentPage = newPage;
+                this.getContacts(newPage);
+            },
+            
+            getContacts: function(page) {
+                page = page || 1;
+
                 axios.get('/contacts', {
                     params: {
-                        page: newPage
+                        page: page,
+                        filters: this.filters
                     }
                 })
                 .then(response => {
@@ -77,6 +84,11 @@
                     this.contacts = this.chunkArray(response.data.contacts, 4);
                     this.totalContacts = response.data.total;
                 });
+            },
+
+            updateFilters: function() {
+                alert("TEST");
+                this.getContacts(this.currentPage);
             }
         },
     }
