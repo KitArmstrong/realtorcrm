@@ -11,7 +11,7 @@ A CRM built just for realtors. With automatic opportunity generation, MLS listin
 ![Contact Entry](screenshots/Contact%20Entry.PNG?raw=true)
 
 ### Contact Display
-![Contact Display](screenshots/ContactDisplay.PNG?raw=true)
+![Contact Display](screenshots/Contact%20Display.PNG?raw=true)
 
 ### Contact Display Map
 ![Contact Address Mapping](screenshots/Address%20Mapping.PNG?raw=true)
