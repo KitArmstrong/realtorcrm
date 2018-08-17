@@ -14,6 +14,7 @@ class NotesController extends Controller
      * Returns a specific type of notes
      *
      * @param String type of notes
+     * 
      * @return Array of JSON notes
      */
     private function getNotes($contactId, $noteType) 
@@ -38,6 +39,7 @@ class NotesController extends Controller
      * Gets a contact's notes
      *
      * @param Request $request
+     * 
      * @return Array of JSON notes
      */
     public function getContactNotes(Request $request)
@@ -53,6 +55,7 @@ class NotesController extends Controller
      * Deletes a note
      *
      * @param Request $request
+     * 
      * @return void
      */
     public function deleteNote(Request $request)
@@ -66,6 +69,7 @@ class NotesController extends Controller
      * Edits an existing not from contact table
      *
      * @param Request $request
+     * 
      * @return void
      */
     public function editNote(Request $request)
@@ -88,6 +92,7 @@ class NotesController extends Controller
      * Adds a new note from tontact table
      *
      * @param Request $request
+     * 
      * @return void
      */
     public function addNewNote(Request $request)
@@ -108,6 +113,7 @@ class NotesController extends Controller
      *
      * @param Integer $contactId
      * @param String $note
+     * 
      * @return void
      */
     public function addNote($contactId, $note)

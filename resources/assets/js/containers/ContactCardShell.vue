@@ -1,3 +1,5 @@
+<!-- This is the shell used for contacts. -->
+
 <template>
 	<el-card class="main-card">
 		<div slot="header" class="card-header">
@@ -36,6 +38,7 @@
 		},
 
 		computed: {
+			// Creates the card title. Uses the default title unless another is passed in.
 			fullTitle: function() {
 				if(!this.cardSubTitle)
 				{

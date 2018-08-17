@@ -1,3 +1,5 @@
+<!-- This is the main application componenet -->
+
 <template>
 	<el-row class="app">
 		<Sidebar :navItems="nav" :sidebarClosed="sidebarClosed">
@@ -48,9 +50,12 @@
 		},
 
  		methods: {
+			// Opens and collapses the sidebar navigation.
  			toggleSidebar: function() {
- 				this.sidebarClosed= !this.sidebarClosed;
- 			},
+ 				this.sidebarClosed = !this.sidebarClosed;
+			 },
+			
+			// Automatically collapses the sidebar depending on the size of the browser window.
  			resizeSidebar: function(event) {
  				let width;
  				if(event)

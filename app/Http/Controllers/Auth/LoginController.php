@@ -30,6 +30,8 @@ class LoginController extends Controller
      * @var string
      */
     protected $redirectTo = '/home';
+ 
+    const ACTIVEUSER = 'A';
 
     /**
      * Create a new controller instance.
@@ -56,7 +58,7 @@ class LoginController extends Controller
         $logindata = [
             'username' => $request->username,
             'password' => $request->password,
-            'status' => 'A',
+            'status' => self::ACTIVEUSER,
         ];
 
         // Attempt to log the user in

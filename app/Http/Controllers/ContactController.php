@@ -20,13 +20,15 @@ class ContactController extends Controller
     /**
      * Adds a new contact and all details.
      *
+     * @param Request request
+     * 
      * @return JSON response of success.
      */
     public function addContact(Request $request)
     {
        $validator = $this->getFormValidator($request);
 
-        // If validation failes return the errors.
+        // If validation fails return the errors.
         if($validator->fails())
         {
             return response()->json(array(
@@ -163,7 +165,9 @@ class ContactController extends Controller
 
     /**
      * Returns the contact form validator.
+     * 
      * @param  Request $request contact form request
+     * 
      * @return Validator instance
      */
     private function getFormValidator(Request $request)
@@ -220,7 +224,9 @@ class ContactController extends Controller
 
     /**
      * Returns list of contacts offest by the page.
+     * 
      * @param  Request $request 
+     * 
      * @return JSON array of contacts
      */
     public function getContactListing(Request $request)
@@ -245,6 +251,7 @@ class ContactController extends Controller
                         ->limit(self::PAGESIZE)
                         ->offset($offset)
                         ->orderBy('lastname')->get();
+
         $contacts = $contacts->toArray();
 
         $totalCount = DB::table('contacts')
@@ -264,8 +271,10 @@ class ContactController extends Controller
 
     /**
      * Returns a single contact.
+     * 
      * @param  Request $request   
      * @param  Integer  $contactId 
+     * 
      * @return JSON contact
      */
     public function getContact(Request $request, $contactId) 
@@ -296,6 +305,7 @@ class ContactController extends Controller
                             ->join('contact_buy_request', 'buy_request_feature.request_id', '=', 'contact_buy_request.buy_request_id')
                             ->select('feature')
                             ->where('contact_buy_request.contacts_id', $contactId)->get();
+
         $features = $features->toArray();
 
         $contact->features = $features;
@@ -307,6 +317,7 @@ class ContactController extends Controller
      * Deletes a note (soft delete)
      *
      * @param Request $request
+     * 
      * @return JSON response
      */
     public function deleteContact(Request $request)
